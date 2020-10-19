@@ -1,0 +1,22 @@
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.1.0
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.0
+    environment:
+      - discovery.type=single-node
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200

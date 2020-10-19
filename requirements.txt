@@ -1,0 +1,14 @@
+Flask
+psycopg2-binary
+redis
+flask_session
+requests
+Flask-WTF
+flask_sqlalchemy
+flask-bcrypt
+flask-login
+qrcode
+Pillow
+docker
+elasticsearch
+gunicorn

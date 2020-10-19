@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {% include 'head.html' %}
+
+  <body id="page-top">
+
+    {% include 'navbar.html' %}
+
+    <header class="masthead">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-lg-7 my-auto">
+            <div class="header-content mx-auto">
+              <h1 class="mb-5">Manage your Wownero funds securely and anonymously.</h1>
+              {% if current_user.is_authenticated %}
+              <a href="{{ url_for('wallet.dashboard') }}" class="btn btn-outline btn-xl">{% if current_user.wallet_created %}Wallet Dashboard{% else %}Create Wallet{% endif %}</a>
+              {% else %}
+              <a href="{{ url_for('auth.register') }}" class="btn btn-outline btn-xl">Register</a>
+              <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-xl">Login</a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-lg-5 my-auto">
+            <div class="device-container">
+              <div class="device-mockup galaxy_s3 portrait black">
+                <div class="device">
+                  <div class="screen">
+                    <img src="/static/img/wow-treasure-chest.png" class="img-fluid" alt="Wownero Treasure Chest">
+                  </div>
+                  <div class="button">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section1" id="about">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>About</h2>
+          <p>This is an <a href="https://git.wownero.com/lza_menace/wowstash" target="_blank">open source</a>, web based, <a href="https://atomicwallet.io/custodial-non-custodial-wallets-comparison" target="
+            _blank">custodial</a> wallet for the <a href="https://wownero.org" target="_blank">Wownero</a> cryptocurrency. It's development and hosting service was funded by the community using the <a href="https://funding.wownero.com/proposal/49" target="
+            _blank">Wownero Funding System</a>.</p>
+          <br>
+          <p>For more information about this system please read the <a href="/faq">FAQ</a>. For contact information, please see the <a href="#contact" class="js-scroll-trigger">contact</a> section.</p>
+          <hr>
+        </div>
+      </div>
+    </section>
+
+    <section class="section2" id="statistics">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>Network Statistics</h2>
+          <p>Prices and network information</p>
+          <hr>
+        </div>
+        <div class="row fp-row">
+          {% if info %}
+          <div class="col-lg-2 my-auto">
+            <p>Current Price:<br>$ {{ info.current_price }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Genesis Date:<br>{{ info.genesis_date }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Market Cap Rank:<br>{{ info.market_cap_rank }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Market Cap:<br>$ {{ info.market_cap }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Total Volume:<br>$ {{ info.total_volume }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Last Updated:<br>{{ info.last_updated }}</p>
+          </div>
+          {% else %}
+          <p class="col-lg-12">Coin information unavailable at this time.</p>
+          {% endif %}
+        </div>
+        <div class="row fp-row">
+          {% if node %}
+          <div class="col-lg-2 my-auto">
+            <p>Network:<br>{{ node.nettype }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Transactions:<br>{{ node.tx_count }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Block Height:<br>{{ node.height }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Difficulty:<br>{{ node.difficulty }}</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Database Size:<br>{{ node.database_size / 1073741824 }} GB</p>
+          </div>
+          <div class="col-lg-2 my-auto">
+            <p>Daemon Address:<br>{{ config.DAEMON_HOST }}</p>
+          </div>
+          {% else %}
+          <p class="col-lg-12">Network information unavailable at this time.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section1" id="contact">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>Contact</h2>
+          <p>Support is provided at a best-effort level; you can expect to hear back within 72 hours.</p>
+          <hr>
+          <ul class="list-inline list-social fp-row">
+            {% for social in config.SOCIAL %}
+            <li class="list-inline-item">
+              <a href="{{ config.SOCIAL[social] }}" target="_blank">
+                <i class="fa fa-{{ social }} fa-3x"></i>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {% include 'footer.html' %}
+
+    {% include 'scripts.html' %}
+
+  </body>
+
+</html>

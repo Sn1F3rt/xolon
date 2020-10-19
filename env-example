@@ -1,0 +1,3 @@
+DB_PASS=xxxx
+DB_USER=wowstash
+DB_HOST=localhost

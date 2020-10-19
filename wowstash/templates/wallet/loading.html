@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  {% include 'head.html' %}
+
+  <body id="page-top">
+
+    {% include 'navbar.html' %}
+
+    <section class="section2">
+      <div class="container">
+        <div class="section-heading text-center">
+          {% if current_user.wallet_created == False %}
+          <h2>Your wallet is being created</h2>
+          {% else %}
+          <h2>Your wallet is connecting</h2>
+          {% endif %}
+          <p>Go smoke a fatty. This page should auto-refresh when it's ready...if not, click the button below</p>
+          <img src="/static/img/loading-cat.gif" width=300>
+          <span class="dashboard-buttons">
+            <div class="col-sm-12 dashboard-button">
+              <a class="btn btn-lg btn-link btn-outline btn-xl" href="{{ url_for('wallet.dashboard') }}">Check Again</a>
+            </div>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    function check_wallet_status(attrib) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4){
+          let res = JSON.parse(xhr.responseText);
+          if (res[attrib] == true) {
+            window.location.href = "{{ url_for('wallet.dashboard') }}"
+          }
+        }
+      };
+      xhr.open('GET', '{{ url_for("wallet.status") }}');
+      xhr.send();
+    }
+
+    {% if current_user.wallet_connected == False and current_user.wallet_created == True %}
+    document.addEventListener("DOMContentLoaded", function(){
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '{{ url_for("wallet.connect") }}');
+      xhr.send();
+    });
+    {% endif %}
+
+    {% if current_user.wallet_connected == False and current_user.wallet_created == False %}
+    document.addEventListener("DOMContentLoaded", function(){
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '{{ url_for("wallet.create") }}');
+      xhr.send();
+    });
+    {% endif %}
+
+    window.setInterval(function(){
+      {% if current_user.wallet_connected == False and current_user.wallet_created == True %}
+      check_wallet_status('connected');
+      {% else %}
+      check_wallet_status('created');
+      {% endif %}
+    }, 6000);
+    </script>
+
+    {% include 'footer.html' %}
+
+    {% include 'scripts.html' %}
+
+  </body>
+
+</html>
