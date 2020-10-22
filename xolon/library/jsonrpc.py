@@ -93,7 +93,7 @@ class Wallet(JSONRPC):
             'get_tx_hex': True,
             'new_algorithm': True,
             'do_not_relay': False,
-            'ring_size': 22
+            'ring_size': 5
         }
         if type == 'sweep_all':
             data['address'] = dest_address
