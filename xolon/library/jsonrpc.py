@@ -5,7 +5,7 @@ from decimal import Decimal
 from xolon import config
 
 
-PICOWOW = Decimal('0.00000000001')
+PICOXOL = Decimal('0.000000000001')
 
 class JSONRPC(object):
     def __init__(self, proto, host, port, username='', password=''):
@@ -125,10 +125,10 @@ def to_atomic(amount):
     return int(amount * 10**11)
 
 def from_atomic(amount):
-    return (Decimal(amount) * PICOWOW).quantize(PICOWOW)
+    return (Decimal(amount) * PICOXOL).quantize(PICOXOL)
 
 def as_xolentum(amount):
-    return Decimal(amount).quantize(PICOWOW)
+    return Decimal(amount).quantize(PICOXOL)
 
 
 daemon = Daemon(

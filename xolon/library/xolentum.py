@@ -6,7 +6,7 @@ from tipbot import config
 from decimal import Decimal
 
 
-PICOXOL = Decimal('0.00000000001')
+PICOXOL = Decimal('0.000000000001')
 
 class Wallet(object):
     def __init__(self):
