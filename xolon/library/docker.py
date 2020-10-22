@@ -15,7 +15,7 @@ from xolon.library.elasticsearch import send_es
 class Docker(object):
     def __init__(self):
         self.client = from_env()
-        self.xolentum_image = getattr(config, 'XOLENTUM_IMAGE', 'lalanza808/xolentum')
+        self.xolentum_image = getattr(config, 'XOLENTUM_IMAGE', 'sohamb03/xolentum')
         self.wallet_dir = expanduser(getattr(config, 'WALLET_DIR', '~/data/wallets'))
         self.listen_port = 8888
 
