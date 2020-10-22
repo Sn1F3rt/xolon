@@ -6,7 +6,7 @@ from tipbot import config
 from decimal import Decimal
 
 
-PICOWOW = Decimal('0.00000000001')
+PICOXOL = Decimal('0.00000000001')
 
 class Wallet(object):
     def __init__(self):
@@ -98,7 +98,7 @@ class Wallet(object):
             'get_tx_hex': True,
             'new_algorithm': True,
             'do_not_relay': False,
-            'ring_size': 22
+            'ring_size': 5
         }
         transfer = self.make_wallet_rpc('transfer', data)
         return transfer
@@ -111,7 +111,7 @@ def to_atomic(amount):
     return int(amount * 10**11)
 
 def from_atomic(amount):
-    return (Decimal(amount) * PICOWOW).quantize(PICOWOW)
+    return (Decimal(amount) * PICOXOL).quantize(PICOXOL)
 
 def as_xolentum(amount):
-    return Decimal(amount).quantize(PICOWOW)
+    return Decimal(amount).quantize(PICOXOL)
