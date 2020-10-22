@@ -1,16 +1,16 @@
 # Site meta
-SITE_NAME = 'WOW Stash'
+SITE_NAME = 'Xolentum Web Wallet'
 
 # Daemon
 DAEMON_PROTO = 'http'
-DAEMON_HOST = 'node.suchwow.xyz'
-DAEMON_PORT = 34568
+DAEMON_HOST = 'xolentum.sohamb03.me'
+DAEMON_PORT = 13580
 DAEMON_USER = ''
 DAEMON_PASS = ''
 
 # Wallets
 WALLET_DIR = './data/wallets'
-XOLENTUM_IMAGE = 'lalanza808/xolentum:v0.9.0.0'
+XOLENTUM_IMAGE = 'sohamb03/xolentum:latest'
 
 # Security
 PASSWORD_SALT = 'salt here' # database salts
@@ -41,8 +41,9 @@ ELASTICSEARCH_ENABLED = False
 
 # Social
 SOCIAL = {
-    'envelope': 'mailto:admin@domain.co',
-    'twitter': 'https://twitter.com/your_twitter_handle',
-    'comment': 'https://webchat.freenode.net/?room=#xolentum',
-    'reddit': 'https://reddit.com/r/xolentum'
+    'envelope': 'mailto:atom@xolentum.org',
+    'facebook': 'https://facebook.com/xolentum/',
+    'medium': 'https://medium.com/@xolentum/'
+    'twitter': 'https://twitter.com/@xolentum',
+    'discord': 'https://chat.xolentum.org/'
 }
