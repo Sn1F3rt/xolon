@@ -1,6 +1,6 @@
 from datetime import datetime
 from elasticsearch import Elasticsearch
-from wowstash import config
+from xolon import config
 
 
 def send_es(data):
@@ -14,7 +14,7 @@ def send_es(data):
             data['datetime'] = now
             es.index(
                 index="{}-{}".format(
-                    getattr(config, 'ELASTICSEARCH_INDEX_NAME', 'wowstash'),
+                    getattr(config, 'ELASTICSEARCH_INDEX_NAME', 'xolon'),
                     index_ts
             ), body=data)
         except Exception as e:

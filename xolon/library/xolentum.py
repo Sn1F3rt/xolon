@@ -113,5 +113,5 @@ def to_atomic(amount):
 def from_atomic(amount):
     return (Decimal(amount) * PICOWOW).quantize(PICOWOW)
 
-def as_wownero(amount):
+def as_xolentum(amount):
     return Decimal(amount).quantize(PICOWOW)

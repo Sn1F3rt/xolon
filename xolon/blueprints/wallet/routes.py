@@ -8,15 +8,15 @@ from flask import redirect, url_for, current_app, flash
 from flask_login import login_required, current_user
 from socket import socket
 from datetime import datetime
-from wowstash.blueprints.wallet import wallet_bp
-from wowstash.library.docker import docker
-from wowstash.library.elasticsearch import send_es
-from wowstash.library.jsonrpc import Wallet, to_atomic
-from wowstash.library.cache import cache
-from wowstash.forms import Send, Delete
-from wowstash.factory import db
-from wowstash.models import User
-from wowstash import config
+from xolon.blueprints.wallet import wallet_bp
+from xolon.library.docker import docker
+from xolon.library.elasticsearch import send_es
+from xolon.library.jsonrpc import Wallet, to_atomic
+from xolon.library.cache import cache
+from xolon.forms import Send, Delete
+from xolon.factory import db
+from xolon.models import User
+from xolon import config
 
 
 @wallet_bp.route('/wallet/loading')
@@ -54,7 +54,7 @@ def dashboard():
         for tx in transfers[type]:
             all_transfers.append(tx)
     balances = wallet.get_balances()
-    qr_uri = f'wownero:{address}?tx_description={current_user.email}'
+    qr_uri = f'xolentum:{address}?tx_description={current_user.email}'
     address_qr = qrcode_make(qr_uri).save(_address_qr)
     qrcode = b64encode(_address_qr.getvalue()).decode()
     seed = wallet.seed()
@@ -126,7 +126,7 @@ def send():
         address = str(send_form.address.data)
         user = User.query.get(current_user.id)
 
-        # Check if Wownero wallet is available
+        # Check if Xolentum wallet is available
         if wallet.connected is False:
             flash('Wallet RPC interface is unavailable at this time. Try again later.')
             send_es({'type': 'tx_fail_rpc_unavailable', 'user': user.email})
@@ -134,7 +134,7 @@ def send():
 
         # Quick n dirty check to see if address is WOW
         if len(address) not in [97, 108]:
-            flash('Invalid Wownero address provided.')
+            flash('Invalid Xolentum address provided.')
             send_es({'type': 'tx_fail_address_invalid', 'user': user.email})
             return redirect(redirect_url)
 
@@ -146,7 +146,7 @@ def send():
             try:
                 amount = to_atomic(Decimal(send_form.amount.data))
             except:
-                flash('Invalid Wownero amount specified.')
+                flash('Invalid Xolentum amount specified.')
                 send_es({'type': 'tx_fail_amount_invalid', 'user': user.email})
                 return redirect(redirect_url)
 

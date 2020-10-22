@@ -3,7 +3,7 @@ from json import dumps as json_dumps
 from requests import get as r_get
 from datetime import timedelta
 from redis import Redis
-from wowstash import config
+from xolon import config
 
 
 class Cache(object):
@@ -31,7 +31,7 @@ class Cache(object):
                 'sparkline': False
             }
             headers = {'accept': 'application/json'}
-            url = 'https://api.coingecko.com/api/v3/coins/wownero'
+            url = 'https://api.coingecko.com/api/v3/coins/xolentum'
             r = r_get(url, headers=headers, data=data)
             info = {
                 'genesis_date': r.json()['genesis_date'],

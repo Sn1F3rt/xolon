@@ -5,17 +5,17 @@ from os.path import expanduser
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
 from time import sleep
-from wowstash import config
-from wowstash.models import User
-from wowstash.factory import db
-from wowstash.library.jsonrpc import daemon
-from wowstash.library.elasticsearch import send_es
+from xolon import config
+from xolon.models import User
+from xolon.factory import db
+from xolon.library.jsonrpc import daemon
+from xolon.library.elasticsearch import send_es
 
 
 class Docker(object):
     def __init__(self):
         self.client = from_env()
-        self.wownero_image = getattr(config, 'WOWNERO_IMAGE', 'lalanza808/wownero')
+        self.xolentum_image = getattr(config, 'XOLENTUM_IMAGE', 'lalanza808/xolentum')
         self.wallet_dir = expanduser(getattr(config, 'WALLET_DIR', '~/data/wallets'))
         self.listen_port = 8888
 
@@ -24,7 +24,7 @@ class Docker(object):
         volume_name = self.get_user_volume(u.id)
         u.wallet_password = token_urlsafe(12)
         db.session.commit()
-        command = f"""wownero-wallet-cli \
+        command = f"""xolentum-wallet-cli \
         --generate-new-wallet /wallet/{u.id}.wallet \
         --restore-height {daemon.info()['height']} \
         --password {u.wallet_password} \
@@ -40,7 +40,7 @@ class Docker(object):
                 driver='local'
             )
         container = self.client.containers.run(
-            self.wownero_image,
+            self.xolentum_image,
             command=command,
             auto_remove=True,
             name=f'create_wallet_{u.id}',
@@ -60,7 +60,7 @@ class Docker(object):
         u = User.query.get(user_id)
         container_name = f'rpc_wallet_{u.id}'
         volume_name = self.get_user_volume(u.id)
-        command = f"""wownero-wallet-rpc \
+        command = f"""xolentum-wallet-rpc \
         --non-interactive \
         --rpc-bind-port {self.listen_port} \
         --rpc-bind-ip 0.0.0.0 \
@@ -74,7 +74,7 @@ class Docker(object):
         """
         try:
             container = self.client.containers.run(
-                self.wownero_image,
+                self.xolentum_image,
                 command=command,
                 auto_remove=True,
                 name=container_name,

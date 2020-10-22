@@ -2,12 +2,12 @@ from os import kill
 from flask import request, render_template, session, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from time import sleep
-from wowstash.blueprints.auth import auth_bp
-from wowstash.forms import Register, Login, Delete
-from wowstash.models import User
-from wowstash.factory import db, bcrypt
-from wowstash.library.docker import docker
-from wowstash.library.elasticsearch import send_es
+from xolon.blueprints.auth import auth_bp
+from xolon.forms import Register, Login, Delete
+from xolon.models import User
+from xolon.factory import db, bcrypt
+from xolon.library.docker import docker
+from xolon.library.elasticsearch import send_es
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])

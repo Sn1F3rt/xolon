@@ -1,6 +1,6 @@
-# wowstash
+# Xolon
 
-A web wallet for noobs who can't use a CLI.
+Web wallet for Xolentum.
 
 ## Setup
 
@@ -10,8 +10,8 @@ cp env-example .env
 vim .env
 
 # Setup app secrets
-cp wowstash/config.{example.py,py}
-vim wowstash/config.py
+cp xolon/config.{example.py,py}
+vim xolon/config.py
 
 # Run db (postgres) and cache (redis) containers
 docker-compose up -d

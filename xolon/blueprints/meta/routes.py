@@ -1,9 +1,9 @@
 from flask import request, render_template, session, redirect, url_for, make_response, jsonify
-from wowstash.blueprints.meta import meta_bp
-from wowstash.library.jsonrpc import daemon
-from wowstash.library.cache import cache
-from wowstash.library.db import Database
-from wowstash.library.docker import Docker
+from xolon.blueprints.meta import meta_bp
+from xolon.library.jsonrpc import daemon
+from xolon.library.cache import cache
+from xolon.library.db import Database
+from xolon.library.docker import Docker
 
 
 @meta_bp.route('/')

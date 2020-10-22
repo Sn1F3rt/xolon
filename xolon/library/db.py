@@ -1,6 +1,6 @@
 from psycopg2 import Error as PGError
 from psycopg2 import connect as PGConnect
-from wowstash import config
+from xolon import config
 
 
 class Database(object):

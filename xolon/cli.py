@@ -1,6 +1,6 @@
-from wowstash.library.jsonrpc import wallet
-from wowstash.models import Transaction
-from wowstash.factory import db
+from xolon.library.jsonrpc import wallet
+from xolon.models import Transaction
+from xolon.factory import db
 
 
 # @app.errorhandler(404)

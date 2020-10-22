@@ -15,7 +15,7 @@ class Login(FlaskForm):
     password = StringField('Password:', validators=[DataRequired()], render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
 
 class Send(FlaskForm):
-    address = StringField('Destination Address:', validators=[DataRequired()], render_kw={"placeholder": "Wownero address", "class": "form-control"})
+    address = StringField('Destination Address:', validators=[DataRequired()], render_kw={"placeholder": "Xolentum address", "class": "form-control"})
     amount = StringField('Amount:', validators=[DataRequired()], render_kw={"placeholder": "Amount to send or \"all\"", "class": "form-control"})
 
 class Delete(FlaskForm):

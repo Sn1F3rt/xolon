@@ -2,7 +2,7 @@ from os import kill
 from sqlalchemy import Column, Integer, DateTime, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-from wowstash.factory import db
+from xolon.factory import db
 
 
 Base = declarative_base()

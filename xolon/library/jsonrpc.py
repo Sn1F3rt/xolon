@@ -2,7 +2,7 @@ import json
 import requests
 from six import integer_types
 from decimal import Decimal
-from wowstash import config
+from xolon import config
 
 
 PICOWOW = Decimal('0.00000000001')
@@ -127,7 +127,7 @@ def to_atomic(amount):
 def from_atomic(amount):
     return (Decimal(amount) * PICOWOW).quantize(PICOWOW)
 
-def as_wownero(amount):
+def as_xolentum(amount):
     return Decimal(amount).quantize(PICOWOW)
 
 

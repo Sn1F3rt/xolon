@@ -52,7 +52,7 @@
               {% if tx.type == 'pool' %}<tr class="table-warning">{% else %}<tr>{% endif %}
                 <td>{{ tx.timestamp | datestamp }}</td>
                 <td>{{ tx.type }}</td>
-                <td><a href="https://wownero.club/transaction/{{ tx.txid }}" target="_blank">{{ tx.txid | truncate(12) }}</a></td>
+                <td><a href="https://xolentum.club/transaction/{{ tx.txid }}" target="_blank">{{ tx.txid | truncate(12) }}</a></td>
                 <td>{{ tx.amount | from_atomic }} WOW</td>
                 <td>{{ tx.confirmations }}</td>
                 <td>{{ tx.height }}</td>
