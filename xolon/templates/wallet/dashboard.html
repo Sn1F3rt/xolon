@@ -17,7 +17,7 @@
           <img src="data:image/png;base64,{{ qrcode }}" width=200 class="center">
           <hr><br>
           <h4>Balance</h4>
-          <p class="inline">{{ balances[1] | from_atomic }} WOW ({{ balances[0] | from_atomic }} locked)</p>
+          <p class="inline">{{ balances[1] | from_atomic }} XOL ({{ balances[0] | from_atomic }} locked)</p>
           <span class="dashboard-buttons">
             <div class="col-sm-6 dashboard-button">
               <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#transfers">See Txes</a>
@@ -53,10 +53,10 @@
                 <td>{{ tx.timestamp | datestamp }}</td>
                 <td>{{ tx.type }}</td>
                 <td><a href="https://xolentum.club/transaction/{{ tx.txid }}" target="_blank">{{ tx.txid | truncate(12) }}</a></td>
-                <td>{{ tx.amount | from_atomic }} WOW</td>
+                <td>{{ tx.amount | from_atomic }} XOL</td>
                 <td>{{ tx.confirmations }}</td>
                 <td>{{ tx.height }}</td>
-                <td>{{ tx.fee | from_atomic }} WOW</td>
+                <td>{{ tx.fee | from_atomic }} XOL</td>
               </tr>
             {% endfor %}
             {% endif %}

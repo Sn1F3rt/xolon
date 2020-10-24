@@ -132,7 +132,7 @@ def send():
             send_es({'type': 'tx_fail_rpc_unavailable', 'user': user.email})
             return redirect(redirect_url)
 
-        # Quick n dirty check to see if address is WOW
+        # Quick n dirty check to see if address is XOL
         if len(address) not in [97, 108]:
             flash('Invalid Xolentum address provided.')
             send_es({'type': 'tx_fail_address_invalid', 'user': user.email})
