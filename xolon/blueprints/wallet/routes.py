@@ -64,7 +64,8 @@ def dashboard():
     return render_template(
         'wallet/dashboard.html',
         transfers=all_transfers,
-        balances=balances,
+        sorted_txes=get_sorted_txes(transfers),
+	balances=balances,
         address=address,
         qrcode=qrcode,
         send_form=send_form,
@@ -168,3 +169,30 @@ def send():
         for field, errors in send_form.errors.items():
             flash(f'{send_form[field].label}: {", ".join(errors)}')
         return redirect(redirect_url)
+
+def get_sorted_txes(_txes):
+    total = 0
+    txes = {}
+    sorted_txes = {}
+    for tx_type in _txes:
+        for t in _txes[tx_type]:
+            txes[t['txid']] = {
+                'type': tx_type,
+                'amount': t['amount'],
+                'timestamp': t['timestamp'],
+                'fee': t['fee']
+            }
+
+    for i in sorted(txes.items(), key=lambda x: x[1]['timestamp']):
+        if i[1]['type'] == 'in':
+            total += i[1]['amount']
+        elif i[1]['type'] == 'out':
+            total -= i[1]['amount']
+            total -= i[1]['fee']
+        sorted_txes[i[0]] = {
+            'type': i[1]['type'],
+            'amount': i[1]['amount'],
+            'timestamp': i[1]['timestamp'],
+            'total': total
+        }
+    return sorted_txes
