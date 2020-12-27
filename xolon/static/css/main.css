@@ -542,3 +542,13 @@ ol li {
   font-size: 1.1em;
   padding-bottom: .75em;
 }
+
+.hidden {
+  display: none;
+}
+
+#startVideo {
+  border: 2px solid white;
+  border-radius: 4px;
+  padding: 6px;
+}

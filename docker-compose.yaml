@@ -6,7 +6,7 @@ services:
     image: postgres:9.6.15-alpine
     container_name: xolon_db
     ports:
-      - 5433:5432
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_USER: ${DB_USER}

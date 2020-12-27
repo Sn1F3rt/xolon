@@ -4,6 +4,51 @@
 <script src="/static/js/main.js"></script>
 <script src="/static/js/noty.js"></script>
 
+{% if request.path == '/wallet/dashboard' %}
+<script type="text/javascript" src="/static/js/zxing.js"></script>
+<script type="text/javascript">
+
+  function decodeOnce(codeReader, selectedDeviceId) {
+    codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
+      const url = new URL(result.text);
+      if (url.protocol == 'wownero:'){
+        document.getElementById('address').value = url.pathname;
+        url.searchParams.forEach((value, key) => {
+          if (key == 'tx_amount'){
+            document.getElementById('amount').value = value;
+          };
+        });
+      };
+      codeReader.reset();
+      $('#preview').hide();
+    }).catch((err) => {
+      console.error(err);
+      codeReader.reset();
+      $('#preview').hide();
+    })
+  }
+
+  window.addEventListener('load', function () {
+    let selectedDeviceId;
+    const codeReader = new ZXing.BrowserQRCodeReader();
+    codeReader.getVideoInputDevices()
+      .then((videoInputDevices) => {
+        document.getElementById('startVideo').addEventListener('click', () => {
+          $('#preview').show();
+          decodeOnce(codeReader, videoInputDevices[0].deviceId);
+        })
+        document.getElementById('stopVideo').addEventListener('click', () => {
+          codeReader.reset();
+          $('#preview').hide();
+        })
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  })
+</script>
+{% endif %}
+
 {% with messages = get_flashed_messages() %}
   {% if messages %}
   <script type="text/javascript">

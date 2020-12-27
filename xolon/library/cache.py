@@ -32,17 +32,22 @@ class Cache(object):
             }
             headers = {'accept': 'application/json'}
             url = 'https://api.coingecko.com/api/v3/coins/xolentum'
-            r = r_get(url, headers=headers, data=data)
-            info = {
-                'genesis_date': r.json()['genesis_date'],
-                'market_cap_rank': r.json()['market_cap_rank'],
-                'current_price': r.json()['market_data']['current_price']['usd'],
-                'market_cap': r.json()['market_data']['market_cap']['usd'],
-                'market_cap_rank': r.json()['market_data']['market_cap_rank'],
-                'total_volume': r.json()['market_data']['total_volume']['usd'],
-                'last_updated': r.json()['last_updated']
-            }
-            self.store_data("coin_info", 15, json_dumps(info))
-            return info
+            # noinspection PyBroadException
+            try:
+                r = r_get(url, headers=headers, data=data)
+                info = {
+                    'genesis_date': r.json()['genesis_date'],
+                    'market_cap_rank': r.json()['market_cap_rank'],
+                    'current_price': r.json()['market_data']['current_price']['usd'],
+                    'market_cap': r.json()['market_data']['market_cap']['usd'],
+                    'total_volume': r.json()['market_data']['total_volume']['usd'],
+                    'last_updated': r.json()['last_updated']
+                }
+                self.store_data("coin_info", 15, json_dumps(info))
+                return info
+
+            except:
+                return {}
+
 
 cache = Cache()
