@@ -17,6 +17,13 @@ class Cache(object):
             value=data
         )
 
+    def get_data(self, item_name):
+        data = self.redis.get(item_name)
+        if data:
+            return data.decode()
+        else:
+            return None
+
     def get_coin_info(self):
         info = self.redis.get("coin_info")
         if info:

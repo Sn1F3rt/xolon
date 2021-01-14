@@ -18,3 +18,22 @@ services:
     container_name: xolon_cache
     ports:
       - 6379:6379
+  grafana:
+    image: grafana/grafana:6.5.0
+    container_name: xolon_ops
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:3001:3000
+    environment:
+      HOSTNAME: grafana
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_SERVER_ROOT_URL: ${GRAFANA_URL}
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_USERS_ALLOW_ORG_CREATE: "false"
+    volumes:
+      - ./files/dashboards.yaml:/etc/grafana/provisioning/dashboards/default.yaml:ro
+      - ./files/xolon_ops.json:/var/lib/grafana/dashboards/xolon_ops.json:ro
+      - grafana:/var/lib/grafana

@@ -7,66 +7,31 @@
 
     {% include 'navbar.html' %}
 
-    <section class="section2">
+    <section class="section1" style="padding: 2em 0 !important;">
       <div class="container">
         <div class="section-heading text-center">
-          {% if current_user.wallet_created == False %}
-          <h2>Your wallet is being created</h2>
-          {% else %}
           <h2>Your wallet is connecting</h2>
-          {% endif %}
-          <p>Go smoke a fatty. This page should auto-refresh when it's ready...if not, click the button below</p>
-          <img src="/static/img/loading-cat.gif" width=300>
+            <p>Go smoke a fatty. This page should auto-refresh when it's ready...if not, click the button below. <br /><br />If you are restoring from a seed, please allow several minutes for the process to complete.</p>
+           <div class="teh_matrix" style="position: relative;border-radius:4px;width:450px;margin-bottom:32px;border:1px solid green;height:250px;overflow:hidden;background-color:black;">
+            <canvas id="q" width="450px" height="250px"></canvas>
+            <span class="centered"></span>
+            <img class="doge" width=80px src="/static/img/loading-doge.png"/>
+            <span class="title">Very Secure Login™</span>
+            <span class="body">
+                ☑ many encryptions<br>
+                ☑ very password<br>
+                ☑ NASA certified<br>
+                ☑ such login<br>
+            </span>
+          </div>
           <span class="dashboard-buttons">
             <div class="col-sm-12 dashboard-button">
-              <a class="btn btn-lg btn-link btn-outline btn-xl" href="{{ url_for('wallet.dashboard') }}">Check Again</a>
+              <a class="btn-link" href="{{ url_for('wallet.dashboard') }}">Check Again</a>
             </div>
           </span>
         </div>
       </div>
     </section>
-
-    <script>
-    function check_wallet_status(attrib) {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4){
-          let res = JSON.parse(xhr.responseText);
-          if (res[attrib] == true) {
-            window.location.href = "{{ url_for('wallet.dashboard') }}"
-          }
-        }
-      };
-      xhr.open('GET', '{{ url_for("wallet.status") }}');
-      xhr.send();
-    }
-
-    {% if current_user.wallet_connected == False and current_user.wallet_created == True %}
-    document.addEventListener("DOMContentLoaded", function(){
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '{{ url_for("wallet.connect") }}');
-      xhr.send();
-    });
-    {% endif %}
-
-    {% if current_user.wallet_connected == False and current_user.wallet_created == False %}
-    document.addEventListener("DOMContentLoaded", function(){
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '{{ url_for("wallet.create") }}');
-      xhr.send();
-    });
-    {% endif %}
-
-    window.setInterval(function(){
-      {% if current_user.wallet_connected == False and current_user.wallet_created == True %}
-      check_wallet_status('connected');
-      {% else %}
-      check_wallet_status('created');
-      {% endif %}
-    }, 6000);
-    </script>
-
-    {% include 'footer.html' %}
 
     {% include 'scripts.html' %}
 

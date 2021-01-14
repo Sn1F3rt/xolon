@@ -1,3 +1,4 @@
+import click
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
@@ -12,6 +13,7 @@ from xolon import config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+
 def _setup_db(app: Flask):
     uri = 'postgresql+psycopg2://{user}:{pw}@{host}:{port}/{db}'.format(
         user=config.DB_USER,
@@ -25,6 +27,7 @@ def _setup_db(app: Flask):
     db = SQLAlchemy(app)
     import xolon.models
     db.create_all()
+
 
 def create_app():
     app = Flask(__name__)
@@ -67,6 +70,14 @@ def create_app():
         def clean_containers():
             from xolon.library.docker import docker
             docker.cleanup()
+
+        @app.cli.command('reset_wallet')
+        @click.argument('user_id')
+        def reset_wallet(user_id):
+            from xolon.models import User
+            user = User.query.get(user_id)
+            user.clear_wallet_data()
+            print(f'Wallet data cleared for user {user.id}')
 
         # Routes/blueprints
         from xolon.blueprints.auth import auth_bp

@@ -154,7 +154,8 @@
         <div class="section-heading text-center">
           <h2>Delete Account</h2>
           <p>You can and should delete your wallet from the server. Please ensure you have copied the mnemonic seed from the secrets above if there are still funds associated with the keys.</p>
-          <form method="POST" action="{{ url_for('auth.delete') }}" class="send-form">
+          <p>I highly recommend making a new wallet on your own and transferring funds there to ensure only you have full ownership and visibility into the private keys / seed. Not your keys, not your crypto!</p>
+            <form method="POST" action="{{ url_for('auth.delete') }}" class="send-form">
               {{ delete_form.csrf_token }}
               {% for f in delete_form %}
                 {% if f.name != 'csrf_token' %}
@@ -168,7 +169,7 @@
               {% for field, errors in delete_form.errors.items() %}
                   <li>{{ send_form[field].label }}: {{ ', '.join(errors) }}</li>
               {% endfor %}
-            </ul>
+              </ul>
               <input type="submit" value="Delete" class="btn btn-link btn-outline btn-xl">
           </form>
         </div>

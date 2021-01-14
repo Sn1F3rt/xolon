@@ -14,7 +14,11 @@
             <div class="header-content mx-auto">
               <h1 class="mb-5">Manage your Xolentum funds securely and anonymously.</h1>
               {% if current_user.is_authenticated %}
-              <a href="{{ url_for('wallet.dashboard') }}" class="btn btn-outline btn-xl">{% if current_user.wallet_created %}Wallet Dashboard{% else %}Create Wallet{% endif %}</a>
+              {% if current_user.wallet_created %}
+                  <a href="{{ url_for('wallet.dashboard') }}" class="btn btn-outline btn-xl">Wallet Dashboard</a>
+                {% else %}
+                  <a href="{{ url_for('wallet.setup') }}" class="btn btn-outline btn-xl">Setup Wallet</a>
+                {% endif %}
               {% else %}
               <a href="{{ url_for('auth.register') }}" class="btn btn-outline btn-xl">Register</a>
               <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-xl">Login</a>

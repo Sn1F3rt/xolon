@@ -1,4 +1,3 @@
-from os import kill
 from flask import request, render_template, session, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from time import sleep
@@ -7,7 +6,7 @@ from xolon.forms import Register, Login, Delete
 from xolon.models import User
 from xolon.factory import db, bcrypt
 from xolon.library.docker import docker
-from xolon.library.elasticsearch import send_es
+from xolon.library.helpers import capture_event
 
 
 @auth_bp.route("/register", methods=["GET", "POST"])
@@ -33,11 +32,11 @@ def register():
         db.session.commit()
 
         # Capture event, login user and redirect to wallet page
-        send_es({'type': 'register', 'user': user.email})
-        login_user(user)
-        return redirect(url_for('wallet.dashboard'))
+        capture_event(user.id, 'register')
+        return redirect(url_for('wallet.setup'))
 
     return render_template("auth/register.html", form=form)
+
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -63,21 +62,22 @@ def login():
             return redirect(url_for('auth.login'))
 
         # Capture event, login user, and redirect to wallet page
-        send_es({'type': 'login', 'user': user.email})
-        login_user(user)
+        capture_event(user.id, 'login')
         return redirect(url_for('wallet.dashboard'))
 
     return render_template("auth/login.html", form=form)
+
 
 @auth_bp.route("/logout")
 def logout():
     if current_user.is_authenticated:
         docker.stop_container(current_user.wallet_container)
-        send_es({'type': 'stop_container', 'user': current_user.email})
+        capture_event(current_user.id, 'stop_container')
         current_user.clear_wallet_data()
-        send_es({'type': 'logout', 'user': current_user.email})
+        capture_event(current_user.id, 'logout')
         logout_user()
     return redirect(url_for('meta.index'))
+
 
 @auth_bp.route("/delete", methods=["GET", "POST"])
 @login_required
@@ -85,13 +85,13 @@ def delete():
     form = Delete()
     if form.validate_on_submit():
         docker.stop_container(current_user.wallet_container)
-        send_es({'type': 'stop_container', 'user': current_user.email})
+        capture_event(current_user.id, 'stop_container')
         sleep(1)
         docker.delete_wallet_data(current_user.id)
-        send_es({'type': 'delete_wallet', 'user': current_user.email})
+        capture_event(current_user.id, 'delete_wallet')
         current_user.clear_wallet_data(reset_password=True, reset_wallet=True)
         flash('Successfully deleted wallet data')
-        return redirect(url_for('meta.index'))
+        return redirect(url_for('wallet.setup'))
     else:
         flash('Please confirm deletion of the account')
         return redirect(url_for('wallet.dashboard'))
