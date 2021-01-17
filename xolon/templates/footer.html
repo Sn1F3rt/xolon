@@ -1,15 +1,15 @@
 <footer>
   <div class="container">
-    <p>&copy; {{ config.SITE_NAME }} 2020. All Rights Reserved.</p>
+    <p>&copy; 2020 {{ config.PROJECT_NAME }} . All Rights Reserved.</p>
     <ul class="list-inline">
       <li class="list-inline-item">
-        <a href="{{ url_for('meta.privacy') }}">Privacy</a>
-      </li>
-      <li class="list-inline-item">
-        <a href="{{ url_for('meta.terms') }}">Terms</a>
-      </li>
-      <li class="list-inline-item">
         <a href="{{ url_for('meta.faq') }}">FAQ</a>
+      </li>
+      <li class="list-inline-item">
+        <a href="{{ url_for('meta.terms-of-service') }}">Terms of Service</a>
+      </li>
+      <li class="list-inline-item">
+        <a href="{{ url_for('meta.privacy-policy') }}">Privacy Policy</a>
       </li>
     </ul>
   </div>

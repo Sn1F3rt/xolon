@@ -5,23 +5,30 @@ from decimal import Decimal
 from xolon import config
 
 
-PICOXOL = Decimal('0.000000000001')
+PICO_XOL = Decimal('0.000000000001')
+
 
 class JSONRPC(object):
     def __init__(self, proto, host, port, username='', password=''):
         self.endpoint = '{}://{}:{}/'.format(
             proto, host, port
         )
+        # noinspection PyUnresolvedReferences
         self.auth = requests.auth.HTTPDigestAuth(
             username, password
         )
 
-    def make_rpc(self, method, params={}, json_rpc=True):
+    def make_rpc(self, method, params=None, json_rpc=True):
+        if params is None:
+            params = {}
+
         if json_rpc:
             endpoint = self.endpoint + "json_rpc"
+
         else:
             endpoint = self.endpoint + method
 
+        # noinspection PyBroadException
         try:
             r = requests.get(
                 endpoint,
@@ -34,6 +41,7 @@ class JSONRPC(object):
                 return r.json()['error']
             else:
                 return r.json()
+
         except:
             return {}
 
@@ -61,7 +69,7 @@ class Wallet(JSONRPC):
     def new_address(self, account_index=0, label=None):
         data = {'account_index': account_index, 'label': label}
         _address = self.make_rpc('create_address', data)
-        return (_address['address_index'], _address['address'])
+        return _address['address_index'], _address['address']
 
     def get_address(self, account_index=0):
         data = {'account_index': account_index}
@@ -71,7 +79,7 @@ class Wallet(JSONRPC):
     def get_balances(self, account_index=0):
         data = {'account_index': account_index}
         balance = self.make_rpc('get_balance', data)
-        return (balance['balance'], balance['unlocked_balance'])
+        return balance['balance'], balance['unlocked_balance']
 
     def get_transfers(self, account_index=0):
         data = {
@@ -84,7 +92,7 @@ class Wallet(JSONRPC):
         }
         return self.make_rpc('get_transfers', data)
 
-    def transfer(self, dest_address, atomic_amount, type='transfer', account_index=0):
+    def transfer(self, dest_address, atomic_amount, _type='transfer', account_index=0):
         data = {
             'account_index': account_index,
             'priority': 0,
@@ -95,7 +103,7 @@ class Wallet(JSONRPC):
             'do_not_relay': False,
             'ring_size': 5
         }
-        if type == 'sweep_all':
+        if _type == 'sweep_all':
             data['address'] = dest_address
             transfer = self.make_rpc('sweep_all', data)
         else:
@@ -121,14 +129,16 @@ class Daemon(JSONRPC):
 def to_atomic(amount):
     if not isinstance(amount, (Decimal, float) + integer_types):
         raise ValueError("Amount '{}' doesn't have numeric type. Only Decimal, int, long and "
-                "float (not recommended) are accepted as amounts.")
+                         "float (not recommended) are accepted as amounts.")
     return int(amount * 10**11)
 
+
 def from_atomic(amount):
-    return (Decimal(amount) * PICOXOL).quantize(PICOXOL)
+    return (Decimal(amount) * PICO_XOL).quantize(PICO_XOL)
+
 
 def as_xolentum(amount):
-    return Decimal(amount).quantize(PICOXOL)
+    return Decimal(amount).quantize(PICO_XOL)
 
 
 daemon = Daemon(
