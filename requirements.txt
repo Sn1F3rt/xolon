@@ -1,3 +1,4 @@
+wtforms
 six
 Flask
 psycopg2-binary

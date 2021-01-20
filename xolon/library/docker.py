@@ -1,6 +1,5 @@
 from docker import from_env, APIClient
 from docker.errors import NotFound, NullResource, APIError
-from socket import socket
 from os.path import expanduser
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
@@ -24,7 +23,7 @@ class Docker(object):
         u.wallet_password = token_urlsafe(12)
         db.session.commit()
         if seed:
-            command = f"""sh -c "yes '' | wownero-wallet-cli \
+            command = f"""sh -c "yes '' | xolentum-wallet-cli \
                     --restore-deterministic-wallet \
                     --generate-new-wallet /wallet/{u.id}.wallet \
                     --restore-height 0 \
@@ -36,7 +35,7 @@ class Docker(object):
                     --command refresh"
                     """
         else:
-            command = f"""wownero-wallet-cli \
+            command = f"""xolentum-wallet-cli \
                     --generate-new-wallet /wallet/{u.id}.wallet \
                     --restore-height {daemon.info()['height']} \
                     --password {u.wallet_password} \

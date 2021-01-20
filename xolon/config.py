@@ -1,6 +1,7 @@
 # Site meta
 SITE_NAME = 'Xolentum Web Wallet'
 PROJECT_NAME = 'The Xolentum Project'
+PROJECT_WEB = 'https://wwwxolentum.org'
 
 # Daemon
 DAEMON_PROTO = 'http'

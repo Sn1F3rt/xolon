@@ -11,7 +11,7 @@
       <div class="container">
         <div class="section-heading text-center">
           <h2>Setup Wallet</h2>
-          <p>Alrighty there hoss, pick an option below...</p>
+          <p>Choose an option below in order to continue creating your wallet:</p>
 
           <hr><br /><br />
 
@@ -20,8 +20,7 @@
           <hr><br /><br />
 
           <form method="POST" action="{{ url_for('wallet.setup') }}" class="send-form">
-              <p><strong>! WARNING !</strong><br /> If you input a mnemonic seed here I could theoretically steal your funds, even without a wallet on my server; so could a hacker if they compromised my server.</p>
-              <p>You <strong>can</strong> and <strong>should</strong> use a <a href="https://wownero.org/#wallets" target="_blank">wallet</a> you can run locally to ensure your funds are safe, especially if there is a lot there. Proceed at your own risk.</p>
+              <p><strong>NOTE: </strong><br>Your mnemonic seed is sent to the server for restoring the wallet.</p>
               {{ restore_form.csrf_token }}
               {% for f in restore_form %}
                 {% if f.name != 'csrf_token' %}

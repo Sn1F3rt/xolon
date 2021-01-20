@@ -14,20 +14,14 @@
           <h4>Address:</h4>
           <p class="slim small">{{ address }}</p>
           <br>
-          <img src="data:image/png;base64,{{ qrcode }}" width=200 class="center">
+          <img src="data:image/png;base64,{{ qrcode }}" width=200 class="center" alt="wallet_qr">
           <hr><br>
           <h4>Balance</h4>
           <p class="inline">{{ balances[1] | from_atomic }} XOL ({{ (balances[0] - balances[1]) | from_atomic }} locked)</p>
           <span class="dashboard-buttons">
-            <div class="col-sm-6 dashboard-button">
-              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#transfers">See Txes</a>
-            </div>
-            <div class="col-sm-6 dashboard-button">
-              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#send">Send Tx</a>
-            </div>
-            <div class="col-sm-6 dashboard-button">
-              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#secrets">See Secrets</a>
-            </div>
+              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#transfers">View TX History</a>
+              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#send">Send TX</a>
+              <a class="btn btn-lg btn-link btn-outline btn-xl js-scroll-trigger" href="#secrets">View Secrets</a>
           </span>
         </div>
       </div>
@@ -38,37 +32,37 @@
         <div class="section-heading text-center">
           <h2>Transfers</h2>
           <div style="width: 70%; text-align: center; margin: 0 auto;">
-            <canvas id="wow_wallet"></canvas>
-            <canvas id="wow_wallet_scatter"></canvas>
+            <canvas id="xol_wallet"></canvas>
+            <canvas id="xol_wallet_scatter"></canvas>
           </div>
 
           <script src="/static/js/Chart.bundle.min.js"></script>
           <link rel="stylesheet" href="/static/css/Chart.min.css"/>
           <script>
-          var wownero = '#ff2ad4';
-          var set_title = function(t){
-            return {
-              display: true,
-              text: t,
-              fontColor: 'white',
-            }
-          }
+              const xolentum = '#ff2ad4';
+              const set_title = function (t) {
+              return {
+                  display: true,
+                  text: t,
+                  fontColor: 'white',
+              }
+          };
 
-          var ctx = document.getElementById('wow_wallet').getContext('2d');
+          let ctx = document.getElementById('xol_wallet').getContext('2d');
           new Chart(ctx, {
             type: 'line',
             data: {
               labels: [0, {% for i in sorted_txes %}'{{ sorted_txes[i].timestamp | datestamp  }}',{% endfor %}],
               datasets: [{
                 label: 'Balance',
-                backgroundColor: wownero,
-                borderColor: wownero,
+                backgroundColor: xolentum,
+                borderColor: xolentum,
                 data: [0, {% for i in sorted_txes %}{{ sorted_txes[i].total | from_atomic }},{% endfor %}],
                 fill: false,
               }]
             },
             options: {
-              title: set_title('Wownero Wallet Balance')
+              title: set_title('Xolentum Wallet Balance')
             }
           });
           </script>
@@ -87,11 +81,11 @@
               {% if tx.type == 'pool' %}<tr class="table-warning">{% else %}<tr>{% endif %}
                 <td>{{ tx.timestamp | datestamp }}</td>
                 <td>{{ tx.type }}</td>
-                <td><a href="https://wownero.club/transaction/{{ tx.txid }}" target="_blank">{{ tx.txid | truncate(12) }}</a></td>
-                <td>{{ tx.amount | from_atomic }} WOW</td>
+                <td><a href="https://explorer.xolentum.org/?hash={{ tx.txid }}#blockchain_transaction" target="_blank">{{ tx.txid | truncate(12) }}</a></td>
+                <td>{{ tx.amount | from_atomic }} XOL</td>
                 <td>{{ tx.confirmations }}</td>
                 <td>{{ tx.height }}</td>
-                <td>{{ tx.fee | from_atomic }} WOW</td>
+                <td>{{ tx.fee | from_atomic }} XOL</td>
               </tr>
             {% endfor %}
             {% endif %}
