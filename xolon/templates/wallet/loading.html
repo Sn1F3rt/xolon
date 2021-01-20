@@ -7,31 +7,19 @@
 
     {% include 'navbar.html' %}
 
-    <section class="section1" style="padding: 2em 0 !important;">
+    <section class="section2">
       <div class="container">
         <div class="section-heading text-center">
-          <h2>Your wallet is connecting</h2>
-            <p>Go smoke a fatty. This page should auto-refresh when it's ready...if not, click the button below. <br /><br />If you are restoring from a seed, please allow several minutes for the process to complete.</p>
-           <div class="teh_matrix" style="position: relative;border-radius:4px;width:450px;margin-bottom:32px;border:1px solid green;height:250px;overflow:hidden;background-color:black;">
-            <canvas id="q" width="450px" height="250px"></canvas>
-            <span class="centered"></span>
-            <img class="doge" width=80px src="/static/img/loading-doge.png"/>
-            <span class="title">Very Secure Login™</span>
-            <span class="body">
-                ☑ many encryptions<br>
-                ☑ very password<br>
-                ☑ NASA certified<br>
-                ☑ such login<br>
-            </span>
-          </div>
+          <h2>Wallet is being connected.</h2>
+            <p>Your wallet is being connecting. This page should auto-refresh when it's ready ... if not, click the button below. <br /><br />If you are restoring from a seed, please allow upto a couple hours for the process to complete.</p>
           <span class="dashboard-buttons">
-            <div class="col-sm-12 dashboard-button">
-              <a class="btn-link" href="{{ url_for('wallet.dashboard') }}">Check Again</a>
-            </div>
+              <a class="btn btn-lg btn-link btn-outline btn-xl" href="{{ url_for('wallet.dashboard') }}">Check Again</a>
           </span>
         </div>
       </div>
     </section>
+
+    {% include 'footer.html' %}
 
     {% include 'scripts.html' %}
 
