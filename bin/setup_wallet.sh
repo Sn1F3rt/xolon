@@ -17,7 +17,7 @@ if [ ! -d "$WALLET_PATH" ]; then
   # initialize new wallet and retain seed
   docker run --rm -it --name xolon-wallet-init \
     -v $WALLET_PATH:/root \
-    sohamb03/xolentum \
+    xolentum/xolentum \
     xolentum-wallet-cli \
       --daemon-address $DAEMON_URI \
       --generate-new-wallet /root/wow \
@@ -28,7 +28,7 @@ fi
 docker run --rm -d --name xolon-wallet \
   -v $WALLET_PATH:/root \
   -p 9999:9999 \
-  sohamb03/xolentum \
+  xolentum/xolentum \
   xolentum-wallet-rpc \
     --daemon-address $DAEMON_URI \
     --wallet-file /root/wow \

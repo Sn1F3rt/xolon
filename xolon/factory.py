@@ -79,6 +79,11 @@ def create_app():
             user.clear_wallet_data()
             print(f'Wallet data cleared for user {user.id}')
 
+        @app.cli.command('init')
+        def init():
+            import xolon.models
+            db.create_all()
+
         # Routes/blueprints
         from xolon.blueprints.auth import auth_bp
         from xolon.blueprints.wallet import wallet_bp

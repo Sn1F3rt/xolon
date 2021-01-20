@@ -1,5 +1,6 @@
 # Site meta
 SITE_NAME = 'Xolentum Web Wallet'
+PROJECT_NAME = 'The Xolentum Project'
 
 # Daemon
 DAEMON_PROTO = 'http'
@@ -41,8 +42,8 @@ TEMPLATES_AUTO_RELOAD = True
 # Social
 SOCIAL = {
     'envelope': 'mailto:atom@xolentum.org',
-    'facebook': 'https://facebook.com/xolentum/',
-    'medium': 'https://medium.com/@xolentum/',
+    'github': 'https://github.com/sohamb03/xolon/issues',
     'twitter': 'https://twitter.com/@xolentum',
-    'discord': 'https://chat.xolentum.org/'
+    'discord': 'https://discord.gg/FTJ4tDQ',
+    'telegram': 'https://t.me/xolentum/'
 }

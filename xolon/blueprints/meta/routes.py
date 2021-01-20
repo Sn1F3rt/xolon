@@ -16,12 +16,12 @@ def faq():
     return render_template('meta/faq.html')
 
 
-@meta_bp.route('/terms-of-service')
+@meta_bp.route('/terms_of_service')
 def terms_of_service():
     return render_template('meta/terms-of-service.html')
 
 
-@meta_bp.route('/privacy-policy')
+@meta_bp.route('/privacy_policy')
 def privacy_policy():
     return render_template('meta/privacy-policy.html')
 

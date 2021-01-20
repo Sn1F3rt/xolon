@@ -28,6 +28,7 @@ class Restore(FlaskForm):
         if len(self.seed.data.split()) != 25:
             raise ValidationError("Invalid seed provided; must be standard Xolentum 25 word format")
 
+
 class Send(FlaskForm):
     address = StringField('Destination Address:', validators=[DataRequired()], render_kw={"placeholder": "Xolentum address", "class": "form-control"})
     amount = StringField('Amount:', validators=[DataRequired()], render_kw={"placeholder": "Amount to send or \"all\"", "class": "form-control"})

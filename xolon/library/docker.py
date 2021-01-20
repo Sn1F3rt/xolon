@@ -14,7 +14,7 @@ from xolon.library.jsonrpc import daemon
 class Docker(object):
     def __init__(self):
         self.client = from_env()
-        self.xolentum_image = getattr(config, 'XOLENTUM_IMAGE', 'sohamb03/xolentum')
+        self.xolentum_image = getattr(config, 'XOLENTUM_IMAGE', 'xolentum/xolentum')
         self.wallet_dir = expanduser(getattr(config, 'WALLET_DIR', '~/data/wallets'))
         self.listen_port = 8888
 

@@ -1,6 +1,6 @@
 six
 Flask
-# psycopg2-binary
+psycopg2-binary
 redis
 flask_session
 requests

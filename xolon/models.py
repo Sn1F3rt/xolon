@@ -7,6 +7,7 @@ from xolon.factory import db
 
 Base = declarative_base()
 
+
 class User(db.Model):
     __tablename__ = 'users'
 
