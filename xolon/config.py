@@ -1,7 +1,7 @@
 # Site meta
 SITE_NAME = 'Xolentum Web Wallet'
 PROJECT_NAME = 'The Xolentum Project'
-PROJECT_WEB = 'https://wwwxolentum.org'
+PROJECT_WEB = 'https://www.xolentum.org'
 
 # Daemon
 DAEMON_PROTO = 'http'
@@ -12,7 +12,7 @@ DAEMON_PASS = ''
 
 # Wallets
 WALLET_DIR = './data/wallets'
-XOLENTUM_IMAGE = 'xolentum/xolentum:latest'
+XOLENTUM_IMAGE = 'xolentum/xolentum:v0.3.0.0'
 
 # Security
 PASSWORD_SALT = 'salt here'  # database salts
