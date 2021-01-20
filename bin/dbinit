@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source .venv/bin/activate
+export FLASK_APP=xolon/app.py
+export FLASK_SECRETS=config.py
+flask init
