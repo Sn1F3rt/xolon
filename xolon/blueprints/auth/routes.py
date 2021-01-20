@@ -33,6 +33,7 @@ def register():
 
         # Capture event, login user and redirect to wallet page
         capture_event(user.id, 'register')
+        login_user(user)
         return redirect(url_for('wallet.setup'))
 
     return render_template("auth/register.html", form=form)
@@ -63,6 +64,7 @@ def login():
 
         # Capture event, login user, and redirect to wallet page
         capture_event(user.id, 'login')
+        login_user(user)
         return redirect(url_for('wallet.dashboard'))
 
     return render_template("auth/login.html", form=form)
