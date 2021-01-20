@@ -19,8 +19,5 @@ down: ## Bring down backend containers
 dev: ## Start development server
 	./bin/dev
 
-dbinit: ## Initialize database schema
-	./bin/dbinit
-
 dbshell: ## Start interactive session with database
 	docker-compose exec db psql -U xolon

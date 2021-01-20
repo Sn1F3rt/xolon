@@ -11,7 +11,7 @@ function check_status(){
     .then((resp) => resp.json())
     .then(function(data) {
         // If we've created a wallet and volume, but not connected a container and are not restoring, attempt connecting
-        if(data['created'] && data['volume'] && data['connected'] === false && data['initializing'] === false){
+        if(data['created'] && data['volume'] && data['connected'] == false && data['initializing'] == false){
           fetch('/wallet/connect')
         }
 
@@ -85,10 +85,10 @@ $(document).ready(function () {
   function decodeOnce(codeReader, selectedDeviceId) {
     codeReader.decodeFromInputVideoDevice(selectedDeviceId, 'video').then((result) => {
       const url = new URL(result.text);
-      if (url.protocol === 'xolentum:'){
+      if (url.protocol == 'xolentum:'){
         document.getElementById('address').value = url.pathname;
         url.searchParams.forEach((value, key) => {
-          if (key === 'tx_amount'){
+          if (key == 'tx_amount'){
             document.getElementById('amount').value = value;
           }
         });
