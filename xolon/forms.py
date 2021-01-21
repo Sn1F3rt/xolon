@@ -45,7 +45,7 @@ class Send(FlaskForm):
     amount = StringField('Amount:', validators=[DataRequired()],
                          render_kw={"placeholder": "Amount to send or \"all\"", "class": "form-control"})
     payment_id = StringField('Payment ID (Optional):', validators=[Optional()],
-                             render_kw={"placeholder": "64 character payment ID", "class": "form-control"})
+                             render_kw={"placeholder": "16 or 32 character payment ID", "class": "form-control"})
 
 
 class Delete(FlaskForm):

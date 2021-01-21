@@ -1,12 +1,12 @@
+import string
 from time import sleep
 from io import BytesIO
 from base64 import b64encode
 from qrcode import make as qrcode_make
 from decimal import Decimal
-from flask import request, render_template, session, jsonify
-from flask import redirect, url_for, current_app, flash
+from flask import render_template, jsonify
+from flask import redirect, url_for, flash
 from flask_login import login_required, current_user
-from socket import socket
 from datetime import datetime
 from xolon.blueprints.wallet import wallet_bp
 from xolon.library.docker import docker
@@ -16,7 +16,6 @@ from xolon.library.cache import cache
 from xolon.forms import Send, Delete, Restore
 from xolon.factory import db
 from xolon.models import User
-from xolon import config
 
 
 @wallet_bp.route('/wallet/setup', methods=['GET', 'POST'])
@@ -76,8 +75,8 @@ def dashboard():
 
     address = wallet.get_address()
     transfers = wallet.get_transfers()
-    for type in transfers:
-        for tx in transfers[type]:
+    for _type in transfers:
+        for tx in transfers[_type]:
             all_transfers.append(tx)
     balances = wallet.get_balances()
     qr_uri = f'xolentum:{address}?tx_description={current_user.email}'
@@ -179,6 +178,8 @@ def send():
     )
     if send_form.validate_on_submit():
         address = str(send_form.address.data)
+        payment_id = str(send_form.payment_id.data) or None
+        # noinspection PyUnresolvedReferences
         user = User.query.get(current_user.id)
 
         # Check if Xolentum wallet is available
@@ -207,8 +208,12 @@ def send():
                 capture_event(user.id, 'tx_fail_amount_invalid')
                 return redirect(redirect_url)
 
+            if not len(payment_id) in [16, 32] and not all(c in string.hexdigits for c in payment_id):
+                flash('Invalid payment ID specified.')
+                return redirect(redirect_url)
+
             # Send transfer
-            tx = wallet.transfer(address, amount, payment_id=send_form.payment_id.data or None)
+            tx = wallet.transfer(address, amount, payment_id=payment_id)
 
         # Inform user of result and redirect
         if 'message' in tx:
