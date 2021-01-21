@@ -114,6 +114,10 @@
                 {{ send_form.amount.label }}
                 {{ send_form.amount }}
               </div>
+              <div class="form-group">
+                {{ send_form.payment_id.label }}
+                {{ send_form.payment_id }}
+              </div>
               <ul>
                 {% for field, errors in send_form.errors.items() %}
                     <li>{{ send_form[field].label }}: {{ ', '.join(errors) }}</li>
