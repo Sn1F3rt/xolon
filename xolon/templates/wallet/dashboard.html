@@ -10,7 +10,7 @@
     <section class="section2">
       <div class="container-slim">
         <div class="section-heading text-center">
-          <h2>Wallet Info</h2>
+          <h2>Wallet Information</h2>
           <h4>Address:</h4>
           <p class="slim small">{{ address }}</p>
           <br>
@@ -30,7 +30,7 @@
     <section class="section1" id="transfers">
       <div class="container">
         <div class="section-heading text-center">
-          <h2>Transfers</h2>
+          <h2>Transaction History</h2>
           <div style="width: 70%; text-align: center; margin: 0 auto;">
             <canvas id="xol_wallet"></canvas>
             <canvas id="xol_wallet_scatter"></canvas>
@@ -97,7 +97,7 @@
     <section class="section2" id="send">
       <div class="container-slim">
         <div class="section-heading text-center">
-          <h2>Send</h2>
+          <h2>Send Transaction</h2>
           <i class="fa fa-qrcode fa-2x" id="startVideo"></i><br /><br />
           <div class="hidden" id="preview">
             <p>Show me a QR code!</p>
@@ -129,7 +129,7 @@
       <div class="container">
         <div class="section-heading text-center">
           <h2>Secrets</h2>
-          <p>You need to save the secrets below; write them down on a physical medium and keep it in a safe location. These can be used to restore your funds to another device in the future when you decide to quit being a bitch and use a real wallet.</p>
+          <p>You need to save the secrets below; write them down on a physical medium and keep it in a safe location.</p>
           <hr><br>
           <h3>Mnemonic Seed</h3>
           <p class="small">{{ seed }}</p>
@@ -146,9 +146,9 @@
     <section class="section2" id="send">
       <div class="container-slim">
         <div class="section-heading text-center">
-          <h2>Delete Account</h2>
-          <p>You can and should delete your wallet from the server. Please ensure you have copied the mnemonic seed from the secrets above if there are still funds associated with the keys.</p>
-          <p>I highly recommend making a new wallet on your own and transferring funds there to ensure only you have full ownership and visibility into the private keys / seed. Not your keys, not your crypto!</p>
+          <h2>Reset Account</h2>
+          <p>Please ensure you have copied the mnemonic seed from the secrets above if there are still funds associated with the keys.</p>
+          <p>It is highly recommended to make a new wallet on your own and transferring funds there to ensure only you have full ownership and visibility into the private keys / seed. Not your keys, not your crypto!</p>
             <form method="POST" action="{{ url_for('auth.delete') }}" class="send-form">
               {{ delete_form.csrf_token }}
               {% for f in delete_form %}
