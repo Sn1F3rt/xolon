@@ -46,5 +46,5 @@ class Send(FlaskForm):
 
 
 class Delete(FlaskForm):
-    confirm = BooleanField('Confirm Account and Wallet Deletion:', validators=[DataRequired()],
+    confirm = BooleanField('Confirm Wallet Deletion:', validators=[DataRequired()],
                            render_kw={"class": "form-control-span"})
