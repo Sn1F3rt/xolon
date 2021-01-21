@@ -71,6 +71,12 @@ class Wallet(JSONRPC):
         _address = self.make_rpc('create_address', data)
         return _address['address_index'], _address['address']
 
+    def integrated_address(self, address, payment_id):
+        data = {'standard_address': address, 'payment_id': payment_id}
+
+        _address = self.make_rpc('make_integrated_address', data)['integrated_address']
+        return _address
+
     def get_address(self, account_index=0):
         data = {'account_index': account_index}
         address = self.make_rpc('get_address', data)['address']
@@ -92,7 +98,7 @@ class Wallet(JSONRPC):
         }
         return self.make_rpc('get_transfers', data)
 
-    def transfer(self, dest_address, atomic_amount, _type='transfer', account_index=0):
+    def transfer(self, dest_address, atomic_amount, _type='transfer', account_index=0, payment_id=None):
         data = {
             'account_index': account_index,
             'priority': 0,
@@ -103,15 +109,21 @@ class Wallet(JSONRPC):
             'do_not_relay': False,
             'ring_size': 5
         }
+
         if _type == 'sweep_all':
             data['address'] = dest_address
             transfer = self.make_rpc('sweep_all', data)
         else:
+            if payment_id:
+                dest_address = self.integrated_address(dest_address, payment_id)
+
             data['destinations'] = [{
                 'address': dest_address,
                 'amount': atomic_amount
             }]
+
             transfer = self.make_rpc('transfer', data)
+
         return transfer
 
 

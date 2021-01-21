@@ -198,6 +198,7 @@ def send():
             tx = wallet.transfer(address, None, 'sweep_all')
         else:
             # Make sure the amount provided is a number
+            # noinspection PyBroadException
             try:
                 amount = to_atomic(Decimal(send_form.amount.data))
 
@@ -207,7 +208,7 @@ def send():
                 return redirect(redirect_url)
 
             # Send transfer
-            tx = wallet.transfer(address, amount)
+            tx = wallet.transfer(address, amount, payment_id=send_form.payment_id.data or None)
 
         # Inform user of result and redirect
         if 'message' in tx:

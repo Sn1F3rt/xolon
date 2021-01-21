@@ -1,7 +1,7 @@
 from re import match as re_match
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, Optional, ValidationError
 
 
 class Register(FlaskForm):
@@ -30,6 +30,7 @@ class Restore(FlaskForm):
     risks_accepted = BooleanField('I agree:', validators=[DataRequired()],
                                   render_kw={"class": "form-control-span"})
 
+    # noinspection PyUnusedLocal
     def validate_seed(self, seed):
         regex = '^[\\w\\s]+$'
         if bool(re_match(regex, self.seed.data)) is False:
@@ -43,6 +44,8 @@ class Send(FlaskForm):
                           render_kw={"placeholder": "Xolentum address", "class": "form-control"})
     amount = StringField('Amount:', validators=[DataRequired()],
                          render_kw={"placeholder": "Amount to send or \"all\"", "class": "form-control"})
+    payment_id = StringField('Payment ID (Optional):', validators=[Optional()],
+                             render_kw={"placeholder": "64 character payment ID", "class": "form-control"})
 
 
 class Delete(FlaskForm):
