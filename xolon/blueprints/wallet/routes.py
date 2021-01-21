@@ -198,6 +198,7 @@ def send():
             tx = wallet.transfer(address, None, 'sweep_all')
         else:
             # Make sure the amount provided is a number
+            # noinspection PyBroadException
             try:
                 amount = to_atomic(Decimal(send_form.amount.data))
 
