@@ -30,7 +30,7 @@ class Restore(FlaskForm):
     risks_accepted = BooleanField('I agree:', validators=[DataRequired()],
                                   render_kw={"class": "form-control-span"})
 
-    def validate_seed(self):
+    def validate_seed(self, seed):
         regex = '^[\\w\\s]+$'
         if bool(re_match(regex, self.seed.data)) is False:
             raise ValidationError('Invalid seed provided; must be alpha-numeric characters only')
