@@ -9,6 +9,7 @@ from flask import redirect, url_for, flash
 from flask_login import login_required, current_user
 from datetime import datetime
 from xolon.blueprints.wallet import wallet_bp
+from xolon.decorators import check_confirmed
 from xolon.library.docker import docker
 from xolon.library.helpers import capture_event
 from xolon.library.jsonrpc import Wallet, to_atomic
@@ -20,6 +21,7 @@ from xolon.models import User
 
 @wallet_bp.route('/wallet/setup', methods=['GET', 'POST'])
 @login_required
+@check_confirmed
 def setup():
     if current_user.wallet_created:
         return redirect(url_for('wallet.dashboard'))
@@ -53,6 +55,7 @@ def loading():
 
 @wallet_bp.route('/wallet/dashboard')
 @login_required
+@check_confirmed
 def dashboard():
     send_form = Send()
     delete_form = Delete()

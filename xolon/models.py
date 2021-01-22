@@ -15,6 +15,8 @@ class User(db.Model):
     email = db.Column(db.String(50), unique=True, index=True)
     password = db.Column(db.String(120))
     register_date = db.Column(db.DateTime, server_default=func.now())
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
     wallet_password = db.Column(db.String(120), nullable=True)
     wallet_created = db.Column(db.Boolean, default=False)
     wallet_connected = db.Column(db.Boolean, default=False)

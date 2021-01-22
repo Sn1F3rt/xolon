@@ -37,8 +37,17 @@ DB_NAME = 'xolon'
 DB_USER = 'xolon'
 DB_PASS = 'password'
 
+# Email
+MAIL_SERVER = 'smtp.example.com'
+MAIL_USE_TLS = True
+MAIL_USE_SSL = False
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
+MAIL_DEFAULT_SENDER = ''
+
 # Development
 TEMPLATES_AUTO_RELOAD = True
+MAIL_DEBUG = True
 
 # Social
 SOCIAL = {

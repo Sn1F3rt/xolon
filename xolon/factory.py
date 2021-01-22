@@ -5,6 +5,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_mail import Mail, Message
 from redis import Redis
 from datetime import datetime
 from xolon import config
@@ -12,6 +13,8 @@ from xolon import config
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+
+mail = None
 
 
 def _setup_db(app: Flask):
@@ -37,6 +40,9 @@ def create_app():
     _setup_db(app)
     bcrypt = Bcrypt(app)
     login_manager = LoginManager(app)
+
+    global mail
+    mail = Mail(app)
 
     with app.app_context():
 
