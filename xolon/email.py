@@ -1,8 +1,6 @@
-from flask_mail import Message, Mail
-
-from xolon import app, config
-
-mail = Mail(app)
+from flask_mail import Message
+from xolon.factory import mail
+from xolon.config import MAIL_DEFAULT_SENDER
 
 
 def send_email(to, subject, template):
@@ -10,6 +8,6 @@ def send_email(to, subject, template):
         subject,
         recipients=[to],
         html=template,
-        sender=config.MAIL_DEFAULT_SENDER
+        sender=MAIL_DEFAULT_SENDER
     )
     mail.send(msg)
