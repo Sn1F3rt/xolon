@@ -63,7 +63,7 @@ def confirm_email(token):
     user = User.query.filter_by(email=email).first_or_404()
 
     if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
+        flash('Account already confirmed.', 'success')
 
     else:
         user.confirmed = True
@@ -80,7 +80,6 @@ def confirm_email(token):
 def unconfirmed():
     if current_user.confirmed:
         return redirect('wallet.dashboard')
-    flash('Please confirm your account!', 'warning')
     return render_template('auth/unconfirmed.html')
 
 
