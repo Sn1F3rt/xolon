@@ -124,6 +124,13 @@
                 {% endfor %}
               </ul>
               <input type="submit" value="Send" class="btn btn-link btn-outline btn-xl">
+              <a class="btn btn-link btn-outline btn-xl" style="margin-left: 10px" onclick="genPaymentID()">Generate</a>
+              <script>
+                  function genPaymentID() {
+                      const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+                      document.getElementById('payment_id').textContent = genRanHex(16);
+                  }
+              </script>
           </form>
         </div>
       </div>

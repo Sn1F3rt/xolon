@@ -1,9 +1,11 @@
+itsdangerous
 wtforms
 six
 Flask
 psycopg2-binary
 redis
 flask_session
+flask_mail
 requests
 Flask-WTF
 flask_sqlalchemy
