@@ -93,7 +93,7 @@ def resend_confirmation():
     subject = "Please confirm your email"
     send_email(current_user.email, subject, html)
     flash('A new confirmation email has been sent.', 'success')
-    return redirect(url_for('user.unconfirmed'))
+    return redirect(url_for('auth.unconfirmed'))
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
