@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from time import sleep
 import datetime
+import requests
 from xolon.blueprints.auth import auth_bp
 from xolon.forms import Register, Login, Delete, Reset, ResetPassword
 from xolon.models import User
@@ -24,6 +25,19 @@ def register():
         if user:
             flash('This email is already registered.')
             return redirect(url_for('auth.login'))
+
+        r = requests.get(f'https://block-temporary-email.com/check/email/{form.email.data}')
+
+        if r.status_code == 200:
+            if r.json()['temporary']:
+                flash('Registrations with temporary disposable emails are not allowed on Xolon, '
+                      'as they pose a substantial risk to a user\'s funds. Please take two '
+                      'minutes to register a valid email address and try again, remember, not '
+                      'your keys, not your crypto!')
+
+                return redirect(url_for('auth.register'))
+        else:
+            pass
 
         # Save new user
         user = User(
