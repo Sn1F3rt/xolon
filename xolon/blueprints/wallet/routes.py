@@ -83,7 +83,7 @@ def dashboard():
             all_transfers.append(tx)
     balances = wallet.get_balances()
     qr_uri = f'xolentum:{address}?tx_description={current_user.email}'
-    address_qr = qrcode_make(qr_uri).save(_address_qr)
+    qrcode_make(qr_uri).save(_address_qr)
     qrcode = b64encode(_address_qr.getvalue()).decode()
     seed = wallet.seed()
     spend_key = wallet.spend_key()

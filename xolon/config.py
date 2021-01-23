@@ -43,7 +43,7 @@ MAIL_USE_TLS = True
 MAIL_USE_SSL = False
 MAIL_USERNAME = ''
 MAIL_PASSWORD = ''
-MAIL_DEFAULT_SENDER = ''
+MAIL_DEFAULT_SENDER = ('Xolon', 'xolon@example.com')
 
 # Development
 TEMPLATES_AUTO_RELOAD = True

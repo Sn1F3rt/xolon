@@ -2,12 +2,12 @@ from itsdangerous import URLSafeTimedSerializer
 from xolon import config
 
 
-def generate_confirmation_token(email):
+def generate_token(email):
     serializer = URLSafeTimedSerializer(config.SECRET_KEY)
     return serializer.dumps(email, salt=config.PASSWORD_SALT)
 
 
-def confirm_token(token, expiration=3600):
+def validate_token(token, expiration=3600):
     serializer = URLSafeTimedSerializer(config.SECRET_KEY)
     # noinspection PyBroadException
     try:
