@@ -16,7 +16,6 @@ from xolon.email import send_email
 def register():
     form = Register()
     if current_user.is_authenticated:
-        flash('Already registered and authenticated.')
         return redirect(url_for('wallet.dashboard'))
 
     if form.validate_on_submit():
@@ -58,7 +57,8 @@ def confirm_email(token):
     try:
         email = validate_token(token)
     except:
-        return flash('The confirmation link is either invalid or has expired.')
+        flash('The confirmation link is either invalid or has expired.')
+        return redirect(url_for('auth.login'))
 
     user = User.query.filter_by(email=email).first_or_404()
 
@@ -89,7 +89,7 @@ def resend_confirmation():
     token = generate_token(current_user.email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
     html = render_template('auth/email/activate.html', confirm_url=confirm_url)
-    subject = 'Please confirm your email'
+    subject = 'Xolon : Account Activation'
     send_email(current_user.email, subject, html)
     flash('A new confirmation email has been sent.')
     return redirect(url_for('auth.unconfirmed'))
@@ -99,7 +99,6 @@ def resend_confirmation():
 def login():
     form = Login()
     if current_user.is_authenticated:
-        flash('Already registered and authenticated.')
         return redirect(url_for('wallet.dashboard'))
 
     if form.validate_on_submit():
@@ -146,10 +145,12 @@ def reset():
         user = User.query.filter_by(email=form.email.data).first()
 
         if not user:
-            return flash('No such email exists in our database.')
+            flash('No such email exists in our database.')
+            return redirect(url_for('auth.reset'))
 
         if not user.confirmed:
-            return flash('Please confirm your email first.')
+            flash('Please confirm your email first.')
+            return redirect(url_for('auth.reset'))
 
         token = generate_token(user.email)
         reset_url = url_for('reset_with_token', token=token, _external=True)
@@ -157,7 +158,7 @@ def reset():
         subject = 'Xolon : Reset Password'
         send_email(user.email, subject, html)
 
-        flash('')
+        flash('An email with a link to reset your password has been sent to your inbox.')
         return redirect(url_for('meta.index'))
 
     return render_template('auth/reset.html', form=form)

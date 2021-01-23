@@ -14,5 +14,5 @@ flask-login
 qrcode
 Pillow
 docker
-elasticsearch
 gunicorn
+email_validator

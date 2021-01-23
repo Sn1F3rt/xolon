@@ -9,7 +9,7 @@ class Register(FlaskForm):
                         render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
-    confirm = StringField('Password:', validators=[DataRequired(),
+    confirm = StringField('Confirm Password:', validators=[DataRequired(),
                                                    EqualTo('password', message='Passwords must match.')],
                           render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
     faq_reviewed = BooleanField('FAQ Reviewed:', validators=[DataRequired()],
