@@ -72,7 +72,7 @@ def confirm_email(token):
         db.session.commit()
         flash('You have successfully confirmed your account!')
 
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('wallet.setup'))
 
 
 @auth_bp.route('/unconfirmed')
@@ -99,7 +99,7 @@ def resend_confirmation():
 def login():
     form = Login()
     if current_user.is_authenticated:
-        return redirect(url_for('wallet.dashboard'))
+        return redirect(url_for('wallet.setup'))
 
     if form.validate_on_submit():
         # Check if user doesn't exist
