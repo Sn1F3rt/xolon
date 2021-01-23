@@ -3,12 +3,12 @@ from flask_login import login_user, logout_user, current_user, login_required
 from time import sleep
 import datetime
 from xolon.blueprints.auth import auth_bp
-from xolon.forms import Register, Login, Delete
+from xolon.forms import Register, Login, Delete, Reset, ResetPassword
 from xolon.models import User
 from xolon.factory import db, bcrypt
 from xolon.library.docker import docker
 from xolon.library.helpers import capture_event
-from xolon.token import generate_confirmation_token, confirm_token
+from xolon.token import generate_token, validate_token
 from xolon.email import send_email
 
 
@@ -35,10 +35,10 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        token = generate_confirmation_token(user.email)
+        token = generate_token(user.email)
         confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-        html = render_template('auth/activate.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
+        html = render_template('auth/email/activate.html', confirm_url=confirm_url)
+        subject = 'Xolon : Account Activation'
         send_email(user.email, subject, html)
 
         # Capture event, login user and redirect to wallet page
@@ -56,21 +56,21 @@ def register():
 def confirm_email(token):
     # noinspection PyBroadException
     try:
-        email = confirm_token(token)
+        email = validate_token(token)
     except:
-        return flash('The confirmation link is invalid or has expired.', 'danger')
+        return flash('The confirmation link is either invalid or has expired.')
 
     user = User.query.filter_by(email=email).first_or_404()
 
     if user.confirmed:
-        flash('Account already confirmed.', 'success')
+        flash('Account already confirmed.')
 
     else:
         user.confirmed = True
         user.confirmed_on = datetime.datetime.now()
         db.session.add(user)
         db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
+        flash('You have successfully confirmed your account!')
 
     return redirect(url_for('auth.login'))
 
@@ -86,12 +86,12 @@ def unconfirmed():
 @auth_bp.route('/resend')
 @login_required
 def resend_confirmation():
-    token = generate_confirmation_token(current_user.email)
+    token = generate_token(current_user.email)
     confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = render_template('auth/activate.html', confirm_url=confirm_url)
-    subject = "Please confirm your email"
+    html = render_template('auth/email/activate.html', confirm_url=confirm_url)
+    subject = 'Please confirm your email'
     send_email(current_user.email, subject, html)
-    flash('A new confirmation email has been sent.', 'success')
+    flash('A new confirmation email has been sent.')
     return redirect(url_for('auth.unconfirmed'))
 
 
@@ -115,7 +115,7 @@ def login():
             form.password.data
         )
         if not password_matches:
-            flash('Invalid username or password.')
+            flash('Invalid email or password.')
             return redirect(url_for('auth.login'))
 
         # Capture event, login user, and redirect to wallet page
@@ -127,6 +127,7 @@ def login():
 
 
 @auth_bp.route("/logout")
+@login_required
 def logout():
     if current_user.is_authenticated:
         docker.stop_container(current_user.wallet_container)
@@ -135,6 +136,55 @@ def logout():
         capture_event(current_user.id, 'logout')
         logout_user()
     return redirect(url_for('meta.index'))
+
+
+@auth_bp.route('/reset', methods=["GET", "POST"])
+def reset():
+    form = Reset()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if not user:
+            return flash('No such email exists in our database.')
+
+        if not user.confirmed:
+            return flash('Please confirm your email first.')
+
+        token = generate_token(user.email)
+        reset_url = url_for('reset_with_token', token=token, _external=True)
+        html = render_template('auth/email/reset_password.html', reset_url=reset_url)
+        subject = 'Xolon : Reset Password'
+        send_email(user.email, subject, html)
+
+        flash('')
+        return redirect(url_for('meta.index'))
+
+    return render_template('auth/reset.html', form=form)
+
+
+@auth_bp.route('/reset/<token>', methods=["GET", "POST"])
+def reset_with_token(token):
+    email = validate_token(token)
+
+    if not email:
+        flash('The reset password link is either invalid or has expired.')
+
+    form = ResetPassword()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=email).first()
+
+        user.password = bcrypt.generate_password_hash(form.password.data).decode('utf8')
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash('Your password has been changed successfully!')
+
+        return redirect(url_for('auth.login'))
+
+    return render_template('auth/change_password.html', form=form, token=token)
 
 
 @auth_bp.route("/delete", methods=["GET", "POST"])

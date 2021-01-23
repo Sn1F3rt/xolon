@@ -1,14 +1,17 @@
 from re import match as re_match
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField
-from wtforms.validators import DataRequired, Optional, ValidationError
+from wtforms.validators import DataRequired, Optional, Email, EqualTo, ValidationError
 
 
 class Register(FlaskForm):
-    email = StringField('Email Address:', validators=[DataRequired()],
+    email = StringField('Email Address:', validators=[DataRequired(), Email()],
                         render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
+    confirm = StringField('Password:', validators=[DataRequired(),
+                                                   EqualTo('password', message='Passwords must match.')],
+                          render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
     faq_reviewed = BooleanField('FAQ Reviewed:', validators=[DataRequired()],
                                 render_kw={"class": "form-control-span"})
     terms_reviewed = BooleanField('Terms of Service Reviewed:', validators=[DataRequired()],
@@ -22,6 +25,19 @@ class Login(FlaskForm):
                         render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
+
+
+class Reset(FlaskForm):
+    email = StringField('Email Address:', validators=[DataRequired(), Email()],
+                        render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
+
+
+class ResetPassword(FlaskForm):
+    password = StringField('Password:', validators=[DataRequired()],
+                           render_kw={"placeholder": "New Password", "class": "form-control", "type": "password"})
+    confirm = StringField('Password:', validators=[DataRequired(),
+                                                   EqualTo('password', message='Passwords must match.')],
+                          render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
 
 
 class Restore(FlaskForm):
