@@ -43,6 +43,7 @@ def setup():
 
 @wallet_bp.route('/wallet/loading')
 @login_required
+@check_confirmed
 def loading():
     if current_user.wallet_connected and current_user.wallet_created:
         return redirect(url_for('wallet.dashboard'))
@@ -92,7 +93,7 @@ def dashboard():
     return render_template(
         'wallet/dashboard.html',
         transfers=all_transfers,
-        sorted_txes=get_sorted_txes(transfers),
+        sorted_txes=_get_sorted_txs(transfers),
         balances=balances,
         address=address,
         qrcode=qrcode,
@@ -107,6 +108,7 @@ def dashboard():
 
 @wallet_bp.route('/wallet/connect')
 @login_required
+@check_confirmed
 def connect():
     if current_user.wallet_created is False:
         data = {
@@ -139,6 +141,7 @@ def connect():
 
 @wallet_bp.route('/wallet/create')
 @login_required
+@check_confirmed
 def create():
     if current_user.wallet_created is False:
         c = docker.create_wallet(current_user.id)
@@ -153,6 +156,7 @@ def create():
 
 @wallet_bp.route('/wallet/status')
 @login_required
+@check_confirmed
 def status():
     user_vol = docker.get_user_volume(current_user.id)
     create_container = cache.get_data(f'init_wallet_{current_user.id}')
@@ -169,6 +173,7 @@ def status():
 
 @wallet_bp.route('/wallet/send', methods=['GET', 'POST'])
 @login_required
+@check_confirmed
 def send():
     send_form = Send()
     redirect_url = url_for('wallet.dashboard') + '#send'
@@ -235,29 +240,29 @@ def send():
         return redirect(redirect_url)
 
 
-def get_sorted_txes(_txes):
+def _get_sorted_txs(_txs):
     total = 0
-    txes = {}
-    sorted_txes = {}
-    for tx_type in _txes:
-        for t in _txes[tx_type]:
-            txes[t['txid']] = {
+    txs = {}
+    sorted_txs = {}
+    for tx_type in _txs:
+        for t in _txs[tx_type]:
+            txs[t['txid']] = {
                 'type': tx_type,
                 'amount': t['amount'],
                 'timestamp': t['timestamp'],
                 'fee': t['fee']
             }
 
-    for i in sorted(txes.items(), key=lambda x: x[1]['timestamp']):
+    for i in sorted(txs.items(), key=lambda x: x[1]['timestamp']):
         if i[1]['type'] == 'in':
             total += i[1]['amount']
         elif i[1]['type'] == 'out':
             total -= i[1]['amount']
             total -= i[1]['fee']
-        sorted_txes[i[0]] = {
+        sorted_txs[i[0]] = {
             'type': i[1]['type'],
             'amount': i[1]['amount'],
             'timestamp': i[1]['timestamp'],
             'total': total
         }
-    return sorted_txes
+    return sorted_txs

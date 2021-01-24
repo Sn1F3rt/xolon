@@ -8,15 +8,15 @@ WALLET_PATH="$HOME/data/xolon/wallet"
 WALLET_PASS="knz7FlihIGfhdDZHKkC3W+xgYTp1G+jE9U1BaXduw"
 WALLET_RPC_USER="xolon"
 WALLET_RPC_PASS="123sfj12joiasd1293aAWE!#"
-DAEMON_URI="https://node.suchwow.xyz:443"
+DAEMON_URI="http://xolentum.sohamb03.me:13580"
 
 # create new wallet path
-mkdir -p $WALLET_PATH
+mkdir -p "$WALLET_PATH"
 
 if [ ! -d "$WALLET_PATH" ]; then
   # initialize new wallet and retain seed
   docker run --rm -it --name xolon-wallet-init \
-    -v $WALLET_PATH:/root \
+    -v "$WALLET_PATH":/root \
     xolentum/xolentum \
     xolentum-wallet-cli \
       --daemon-address $DAEMON_URI \
@@ -26,7 +26,7 @@ fi
 
 # setup rpc process
 docker run --rm -d --name xolon-wallet \
-  -v $WALLET_PATH:/root \
+  -v "$WALLET_PATH":/root \
   -p 9999:9999 \
   xolentum/xolentum \
   xolentum-wallet-rpc \

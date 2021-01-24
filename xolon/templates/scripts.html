@@ -31,47 +31,7 @@ $(document).ready(function () {
   }, 7000);
 
   // ...but also check on initial page load
-  check_status();
-
-  // enter teh matrix
-  let q = document.getElementById('q');
-  let width = q.width;
-  let height = q.height;
-  let yPositions = Array(300).join(0).split('');
-  let ctx = q.getContext('2d');
-
-  let draw = function () {
-    ctx.fillStyle = 'rgba(0,0,0,.05)';
-    ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#0F0';
-    ctx.font = '10pt Georgia';
-    yPositions.map(function (y, index) {
-      let text = String.fromCharCode(1e2 + Math.random() * 33);
-      let x = (index * 10) + 10;
-      q.getContext('2d').fillText(text, x, y);
-      if (y > 100 + Math.random() * 1e4) {
-        yPositions[index] = 0;
-      }
-      else {
-        yPositions[index] = y + 10;
-      }
-    });
-  };
-
-  let matrix_interval = null;
-
-  function RunMatrix() {
-    matrix_interval = setInterval(draw, 33);
-  }
-
-  RunMatrix();
-
-  $('.teh_matrix span').each(function(i, obj){
-      jQuery(obj).css('opacity', '1');
-  });
-  $('.teh_matrix img').each(function(i, obj){
-      jQuery(obj).css('opacity', '1');
-  });
+  check_status()
 });
 
 

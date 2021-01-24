@@ -142,9 +142,10 @@ class Docker(object):
             volume.remove()
             return True
         except Exception as e:
-            raise
+            raise e
 
-    def get_user_volume(self, user_id):
+    @staticmethod
+    def get_user_volume(user_id):
         volume_name = f'user_{user_id}_wallet'
         return volume_name
 

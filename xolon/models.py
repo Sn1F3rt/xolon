@@ -1,5 +1,3 @@
-from os import kill
-from sqlalchemy import Column, Integer, DateTime, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 from xolon.factory import db
@@ -35,10 +33,6 @@ class User(db.Model):
     @property
     def is_anonymous(self):
         return False
-
-    @property
-    def is_admin(self):
-        return self.admin
 
     def get_id(self):
         return self.id

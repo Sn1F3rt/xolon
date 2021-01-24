@@ -164,13 +164,8 @@ header.masthead {
   padding-top: 150px;
   padding-bottom: 100px;
   color: white;
-  background: url("../img/bg-pattern.png"), rgb(76, 76, 76);
-  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to right, rgb(235, 74, 206), rgb(76, 76, 76));
-  background: url("../img/bg-pattern.png"), linear-gradient(to right, rgb(235, 74, 206), rgb(76, 76, 76));
+  background: url("../img/bg-pattern.png"), linear-gradient(to right, rgb(43, 45, 66), rgb(76, 76, 76));
 }
-
-/* pink - 255, 42,212 */
-/* gold - 255,204,0 */
 
 header.masthead .header-content {
   max-width: 500px;
@@ -289,34 +284,10 @@ section.section1 .feature-item i {
   font-size: 80px;
   display: block;
   margin-bottom: 15px;
-  background: -webkit-linear-gradient(to left, #7b4397, #dc2430);
-  background: linear-gradient(to left, #7b4397, #dc2430);
+  background: -webkit-linear-gradient(to left, #2B2D42, #8d99ae);
+  background: linear-gradient(to left, #2B2D42, #8d99ae);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-section.cta {
-  position: relative;
-  padding: 250px 0;
-  background-image: url("../img/bg-cta.jpg");
-  background-position: center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-section.cta .cta-content {
-  position: relative;
-  z-index: 1;
-}
-
-section.cta .cta-content h2 {
-  font-size: 50px;
-  max-width: 450px;
-  margin-top: 0;
-  margin-bottom: 25px;
-  color: white;
 }
 
 @media (min-width: 768px) {
@@ -337,9 +308,7 @@ section.cta .overlay {
 section.section2 {
   text-align: center;
   color: white;
-  background: url("../img/bg-pattern.png"), rgb(76, 76, 76);
-  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, rgb(235, 74, 206), rgb(76, 76, 76));
-  background: url("../img/bg-pattern.png"), linear-gradient(to left, rgb(235, 74, 206), rgb(76, 76, 76));
+  background: url("../img/bg-pattern.png"), linear-gradient(to left, rgb(43, 45, 66), rgb(76, 76, 76));
 }
 
 section.section2 h2 {
@@ -417,8 +386,8 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
 .bg-primary {
   color: white;
   background: rgb(240, 102, 0);
-  background: -webkit-linear-gradient(to left, rgb(255, 102, 0), rgb(76, 76, 76));
-  background: linear-gradient(to left, rgb(255, 102, 0), rgb(76, 76, 76));
+  background: -webkit-linear-gradient(to left, rgb(43, 45, 66), rgb(76, 76, 76));
+  background: linear-gradient(to left, rgb(43, 45, 66), rgb(76, 76, 76));
 }
 
 .text-primary {
@@ -432,8 +401,7 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
 
 .btn-outline {
   color: white;
-  border: 1px solid;
-  border-color: white;
+  border: 1px solid white;
 }
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active, .btn-outline.active {
@@ -444,15 +412,13 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
 
 .btn-outline-inverse {
   color: white;
-  border: 1px solid;
-  border-color: rgb(76, 76, 76);
+  border: 1px solid rgb(76, 76, 76);
   background-color: rgb(76, 76, 76);
 }
 
 .btn-outline-inverse:hover, .btn-outline-inverse:focus, .btn-outline-inverse:active, .btn-outline-inverse.active {
   color: rgb(76, 76, 76);
-  border: 1px solid;
-  border-color: rgb(76, 76, 76);
+  border: 1px solid rgb(76, 76, 76);
   background-color: white;
 }
 
