@@ -88,10 +88,23 @@ def create_app():
             user.clear_wallet_data()
             print(f'Wallet data cleared for user {user.id}')
 
+        # noinspection PyUnresolvedReferences
         @app.cli.command('init')
         def init():
             import xolon.models
             db.create_all()
+
+        @app.cli.commad('maintenance')
+        @click.argument('mode')
+        def maintenance(mode):
+            if mode == 'enable':
+                app.config['SITE_MAINTENANCE'] = True
+
+            elif mode == 'disable':
+                app.config['SITE_MAINTENANCE'] = True
+
+            else:
+                print('Usage : flask maintenance enable/disable ')
 
         # Routes/blueprints
         from xolon.blueprints.auth import auth_bp

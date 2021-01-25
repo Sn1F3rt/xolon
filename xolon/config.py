@@ -49,6 +49,9 @@ MAIL_DEFAULT_SENDER = ('Xolon', 'xolon@example.com')
 TEMPLATES_AUTO_RELOAD = True
 MAIL_DEBUG = True
 
+# Maintenance
+SITE_MAINTENANCE = False
+
 # Social
 SOCIAL = {
     'envelope': 'mailto:atom@xolentum.org',

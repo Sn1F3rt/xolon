@@ -1,9 +1,10 @@
-from flask import render_template, make_response, jsonify
+from flask import redirect, url_for, render_template, make_response, jsonify
 from xolon.blueprints.meta import meta_bp
 from xolon.library.jsonrpc import daemon
 from xolon.library.cache import cache
 from xolon.library.db import Database
 from xolon.library.docker import Docker
+from xolon import config
 
 
 @meta_bp.route('/')
@@ -33,6 +34,15 @@ def health():
         'mysql': Database().connected,
         'docker': Docker().client.ping()
     }), 200)
+
+
+@meta_bp.route('/maintenance')
+def maintenance():
+    if config.SITE_MAINTENANCE:
+        return render_template('meta/maintenance.html'), 503
+
+    else:
+        return redirect(url_for('meta.index'))
 
 
 # @app.errorhandler(404)
