@@ -30,7 +30,7 @@ def privacy_policy():
 def health():
     return make_response(jsonify({
         'redis': cache.redis.ping(),
-        'postgres': Database().connected,
+        'mysql': Database().connected,
         'docker': Docker().client.ping()
     }), 200)
 

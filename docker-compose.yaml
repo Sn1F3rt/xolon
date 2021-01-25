@@ -9,9 +9,9 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${ROOT_PASS}
-	  MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_NAME}
+      MYSQL_PASSWORD: ${DB_PASS}
     volumes:
       - ./data/mysql:/var/lib/mysql
   cache:
@@ -24,7 +24,7 @@ services:
     container_name: xolon_ops
     restart: unless-stopped
     ports:
-      - 127.0.0.1:3001:3000
+      - 127.0.0.1:3000:3000
     environment:
       HOSTNAME: grafana
       GF_SECURITY_ADMIN_USER: admin
