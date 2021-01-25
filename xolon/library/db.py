@@ -1,11 +1,10 @@
-from psycopg2 import Error as PGError
-from psycopg2 import connect as PGConnect
+from pymysql import connect
 from xolon import config
 
 
 class Database(object):
     def __init__(self):
-        self.conn = PGConnect(
+        self.conn = connect(
             user=config.DB_USER,
             password=config.DB_PASS,
             host=config.DB_HOST,
@@ -14,7 +13,7 @@ class Database(object):
         )
 
         cursor = self.conn.cursor()
-        cursor.execute("SELECT VERSION()")
+        cursor.execute("SELECT VERSION();")
         results = cursor.fetchone()
         if results:
             self.connected = True

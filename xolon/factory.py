@@ -18,7 +18,7 @@ mail = None
 
 
 def _setup_db(app: Flask):
-    uri = 'postgresql+psycopg2://{user}:{pw}@{host}:{port}/{db}'.format(
+    uri = 'mysql+pymysql://{user}:{pw}@{host}:{port}/{db}'.format(
         user=config.DB_USER,
         pw=config.DB_PASS,
         host=config.DB_HOST,
@@ -27,6 +27,9 @@ def _setup_db(app: Flask):
     )
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
+                                               'pool_recycle': 300
+                                               }
     db = SQLAlchemy(app)
     import xolon.models
     db.create_all()

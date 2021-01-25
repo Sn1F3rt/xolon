@@ -32,7 +32,7 @@ REDIS_PORT = 6379
 
 # Database
 DB_HOST = 'localhost'
-DB_PORT = 5432
+DB_PORT = 3306
 DB_NAME = 'xolon'
 DB_USER = 'xolon'
 DB_PASS = 'password'

@@ -20,4 +20,4 @@ dev: ## Start development server
 	./bin/dev
 
 dbshell: ## Start interactive session with database
-	docker-compose exec db psql -U xolon
+	docker-compose exec db mysql -u xolon -p"${DB_PASS}"
