@@ -1,3 +1,4 @@
+from flask import redirect, url_for
 from xolon.factory import create_app
 
 app = create_app()

@@ -1,5 +1,5 @@
 import click
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
@@ -15,6 +15,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 mail = None
+_SITE_MAINTENANCE = False
 
 
 def _setup_db(app: Flask):
@@ -74,6 +75,13 @@ def create_app():
             else:
                 return float(atomic)
 
+        # Maintenance
+        @app.before_request
+        def check_for_maintenance():
+            global _SITE_MAINTENANCE
+            if _SITE_MAINTENANCE:
+                return redirect(url_for('meta.maintenance'))
+
         # CLI
         @app.cli.command('clean_containers')
         def clean_containers():
@@ -88,10 +96,24 @@ def create_app():
             user.clear_wallet_data()
             print(f'Wallet data cleared for user {user.id}')
 
+        # noinspection PyUnresolvedReferences
         @app.cli.command('init')
         def init():
             import xolon.models
             db.create_all()
+
+        @app.cli.commad('maintenance')
+        @click.argument('mode')
+        def maintenance(mode):
+            global _SITE_MAINTENANCE
+            if mode == 'enable':
+                _SITE_MAINTENANCE = True
+
+            elif mode == 'disable':
+                _SITE_MAINTENANCE = False
+
+            else:
+                print('Usage : flask maintenance enable/disable ')
 
         # Routes/blueprints
         from xolon.blueprints.auth import auth_bp
