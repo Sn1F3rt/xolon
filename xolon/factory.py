@@ -8,8 +8,6 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from redis import Redis
 from datetime import datetime
-from xolon.models import Internal
-from xolon.library.helpers import on_maintenance, set_maintenance
 from xolon import config
 
 
@@ -49,10 +47,6 @@ def create_app():
     global mail
     mail = Mail(app)
 
-    _conf = Internal(key='SITE_MAINTENANCE')
-    db.session.add(_conf)
-    db.session.commit()
-
     with app.app_context():
 
         # Login manager
@@ -83,6 +77,7 @@ def create_app():
         # Maintenance
         @app.before_request
         def check_for_maintenance():
+            from xolon.library.helpers import on_maintenance
             if request.endpoint in ['meta.maintenance', 'static']:
                 return
 
@@ -109,9 +104,14 @@ def create_app():
             import xolon.models
             db.create_all()
 
+            _conf = Internal(key='SITE_MAINTENANCE')
+            db.session.add(_conf)
+            db.session.commit()
+
         @app.cli.command('maintenance')
         @click.argument('mode')
         def maintenance(mode):
+            from xolon.library.helpers import on_maintenance, set_maintenance
             if mode == 'enable':
                 if on_maintenance():
                     print('[WARNING] Application is already on maintenance mode')
