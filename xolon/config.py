@@ -19,7 +19,7 @@ PASSWORD_SALT = 'salt here'  # database salts
 SECRET_KEY = 'secret session key here'  # encrypts the session token
 
 # Session
-PERMANENT_SESSION_LIFETIME = 1800  # 60 minute session expiry
+PERMANENT_SESSION_LIFETIME = 3600  # 60 minute session expiry
 SESSION_COOKIE_NAME = 'xolon'
 SESSION_COOKIE_DOMAIN = '127.0.0.1'
 SESSION_COOKIE_SECURE = False

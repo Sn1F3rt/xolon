@@ -157,6 +157,7 @@ class Docker(object):
                 session_lifetime = getattr(config, 'PERMANENT_SESSION_LIFETIME', 3600)
                 expiration_time = u.wallet_start + timedelta(seconds=session_lifetime)
                 now = datetime.utcnow()
+                # noinspection PyTypeChecker
                 time_diff = expiration_time - now
                 if time_diff.total_seconds() <= 0:
                     print(f'[+] Found expired container for {u}. killing it')
