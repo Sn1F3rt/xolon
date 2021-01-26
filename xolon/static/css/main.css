@@ -504,3 +504,8 @@ ol li {
   border-radius: 4px;
   padding: 6px;
 }
+
+.mt-button {
+  text-decoration: none;
+  background-color: transparent;
+}

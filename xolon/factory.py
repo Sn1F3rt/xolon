@@ -104,6 +104,7 @@ def create_app():
             import xolon.models
             db.create_all()
 
+            from xolon.models import Internal
             _conf = Internal(key='SITE_MAINTENANCE')
             db.session.add(_conf)
             db.session.commit()
