@@ -1,13 +1,15 @@
 import click
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from redis import Redis
 from datetime import datetime
+from xolon.models import Internal
+from xolon.library.helpers import on_maintenance, set_maintenance
 from xolon import config
 
 
@@ -15,7 +17,6 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 mail = None
-_SITE_MAINTENANCE = False
 
 
 def _setup_db(app: Flask):
@@ -48,6 +49,10 @@ def create_app():
     global mail
     mail = Mail(app)
 
+    _conf = Internal(key='SITE_MAINTENANCE')
+    db.session.add(_conf)
+    db.session.commit()
+
     with app.app_context():
 
         # Login manager
@@ -78,8 +83,10 @@ def create_app():
         # Maintenance
         @app.before_request
         def check_for_maintenance():
-            global _SITE_MAINTENANCE
-            if _SITE_MAINTENANCE:
+            if request.endpoint in ['meta.maintenance', 'static']:
+                return
+
+            if on_maintenance():
                 return redirect(url_for('meta.maintenance'))
 
         # CLI
@@ -102,18 +109,27 @@ def create_app():
             import xolon.models
             db.create_all()
 
-        @app.cli.commad('maintenance')
+        @app.cli.command('maintenance')
         @click.argument('mode')
         def maintenance(mode):
-            global _SITE_MAINTENANCE
             if mode == 'enable':
-                _SITE_MAINTENANCE = True
+                if on_maintenance():
+                    print('[WARNING] Application is already on maintenance mode')
+
+                else:
+                    set_maintenance(True)
+                    print('[INFO] Maintenance mode enabled')
 
             elif mode == 'disable':
-                _SITE_MAINTENANCE = False
+                if not on_maintenance():
+                    print('[WARNING] Application not on maintenance mode')
+
+                else:
+                    set_maintenance(False)
+                    print('[INFO] Maintenance mode disabled')
 
             else:
-                print('Usage : flask maintenance enable/disable ')
+                print('[USAGE] flask maintenance enable/disable ')
 
         # Routes/blueprints
         from xolon.blueprints.auth import auth_bp

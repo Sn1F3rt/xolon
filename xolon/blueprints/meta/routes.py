@@ -4,7 +4,7 @@ from xolon.library.jsonrpc import daemon
 from xolon.library.cache import cache
 from xolon.library.db import Database
 from xolon.library.docker import Docker
-from xolon.factory import _SITE_MAINTENANCE
+from xolon.library.helpers import on_maintenance
 
 
 @meta_bp.route('/')
@@ -38,7 +38,7 @@ def health():
 
 @meta_bp.route('/maintenance')
 def maintenance():
-    if _SITE_MAINTENANCE:
+    if on_maintenance():
         return render_template('meta/maintenance.html'), 503
 
     else:
