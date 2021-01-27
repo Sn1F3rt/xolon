@@ -198,11 +198,11 @@ def status():
     return jsonify(data)
 
 
-@wallet_bp.route('/wallet/secrets')
+@wallet_bp.route('/wallet/secrets', methods=['GET', 'POST'])
 @login_required
 @check_confirmed
 def secrets():
-    secrets_form = Send()
+    secrets_form = Secrets()
 
     if secrets_form.validate_on_submit():
         password_matches = bcrypt.check_password_hash(
