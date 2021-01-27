@@ -40,6 +40,11 @@ class ResetPassword(FlaskForm):
                           render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
 
 
+class Secrets(FlaskForm):
+    password = StringField('Enter your password:', validators=[DataRequired()],
+                           render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
+
+
 class Restore(FlaskForm):
     seed = StringField('Seed Phrase', validators=[DataRequired()],
                        render_kw={"placeholder": "25 word mnemonic seed phrase", "class": "form-control"})

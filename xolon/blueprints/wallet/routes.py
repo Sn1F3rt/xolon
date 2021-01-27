@@ -4,8 +4,7 @@ from io import BytesIO
 from base64 import b64encode
 from qrcode import make as qrcode_make
 from decimal import Decimal
-from flask import render_template, jsonify
-from flask import redirect, url_for, flash
+from flask import render_template, jsonify, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from datetime import datetime
 from xolon.blueprints.wallet import wallet_bp
@@ -14,8 +13,9 @@ from xolon.library.docker import docker
 from xolon.library.helpers import capture_event
 from xolon.library.jsonrpc import Wallet, to_atomic
 from xolon.library.cache import cache
-from xolon.forms import Send, Delete, Restore
-from xolon.factory import db
+from xolon.forms import Send, Delete, Restore, Secrets
+from xolon.token import generate_token, validate_token
+from xolon.factory import db, bcrypt
 from xolon.models import User
 
 
@@ -78,32 +78,59 @@ def dashboard():
         return redirect(url_for('wallet.loading'))
 
     address = wallet.get_address()
+
     transfers = wallet.get_transfers()
     for _type in transfers:
         for tx in transfers[_type]:
             all_transfers.append(tx)
+
     balances = wallet.get_balances()
+
     qr_uri = f'xolentum:{address}?tx_description={current_user.email}'
     qrcode_make(qr_uri).save(_address_qr)
     qrcode = b64encode(_address_qr.getvalue()).decode()
-    seed = wallet.seed()
-    spend_key = wallet.spend_key()
-    view_key = wallet.view_key()
+
     capture_event(current_user.id, 'load_dashboard')
-    return render_template(
-        'wallet/dashboard.html',
-        transfers=all_transfers,
-        sorted_txes=_get_sorted_txs(transfers),
-        balances=balances,
-        address=address,
-        qrcode=qrcode,
-        send_form=send_form,
-        delete_form=delete_form,
-        user=current_user,
-        seed=seed,
-        spend_key=spend_key,
-        view_key=view_key,
-    )
+
+    _show_secrets = request.args.get('show_secrets', 'default')
+    _token = request.args.get('token', 'default')
+
+    if request.args.get('show_secrets', 'no') == 'true' and _token and \
+            validate_token(_token, 60) == current_user.email:
+        seed = wallet.seed()
+        spend_key = wallet.spend_key()
+        view_key = wallet.view_key()
+
+        return render_template(
+            'wallet/dashboard.html',
+            transfers=all_transfers,
+            sorted_txes=_get_sorted_txs(transfers),
+            balances=balances,
+            address=address,
+            qrcode=qrcode,
+            send_form=send_form,
+            delete_form=delete_form,
+            user=current_user,
+            seed=seed,
+            spend_key=spend_key,
+            view_key=view_key,
+        )
+
+    else:
+        secrets_form = Secrets()
+
+        return render_template(
+            'wallet/dashboard.html',
+            transfers=all_transfers,
+            sorted_txes=_get_sorted_txs(transfers),
+            balances=balances,
+            address=address,
+            qrcode=qrcode,
+            send_form=send_form,
+            secrets_form=secrets_form,
+            delete_form=delete_form,
+            user=current_user,
+        )
 
 
 @wallet_bp.route('/wallet/connect')
@@ -169,6 +196,28 @@ def status():
         'initializing': docker.container_exists(create_container)
     }
     return jsonify(data)
+
+
+@wallet_bp.route('/wallet/secrets')
+@login_required
+@check_confirmed
+def secrets():
+    secrets_form = Send()
+
+    if secrets_form.validate_on_submit():
+        password_matches = bcrypt.check_password_hash(
+            current_user.password,
+            secrets_form.password.data
+        )
+
+        if not password_matches:
+            flash('Invalid password.')
+            return redirect(url_for('wallet.dashboard') + '#secrets')
+
+        else:
+            _token = generate_token(current_user.email)
+            return redirect(url_for('wallet.dashboard') + f'?show_secrets=true&token={_token}'
+                            + '#secrets')
 
 
 @wallet_bp.route('/wallet/send', methods=['GET', 'POST'])

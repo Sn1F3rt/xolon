@@ -142,14 +142,30 @@
           <h2>Secrets</h2>
           <p>You need to save the secrets below; write them down on a physical medium and keep it in a safe location.</p>
           <hr><br>
-          <h3>Mnemonic Seed</h3>
-          <p class="small">{{ seed }}</p>
-          <br>
-          <h3>Spend Key</h3>
-          <p class="small">{{ spend_key }}</p>
-          <br>
-          <h3>View Key</h3>
-          <p class="small">{{ view_key }}</p>
+            {% if secrets_form is defined %}
+              <form method="POST" action="{{ url_for('wallet.secrets') }}" class="secrets-form">
+                  {{ secrets_form.csrf_token }}
+                  <div class="form-group">
+                    {{ secrets_form.password.label }}
+                    {{ secrets_form.password }}
+                  </div>
+                  <ul>
+                    {% for field, errors in secrets_form.errors.items() %}
+                        <li>{{ secrets_form[field].label }}: {{ ', '.join(errors) }}</li>
+                    {% endfor %}
+                  </ul>
+                  <input type="submit" value="Verify" class="btn btn-link btn-outline btn-xl">
+              </form>
+            {% else %}
+              <h3>Mnemonic Seed</h3>
+              <p class="small">{{ seed }}</p>
+              <br>
+              <h3>Spend Key</h3>
+              <p class="small">{{ spend_key }}</p>
+              <br>
+              <h3>View Key</h3>
+              <p class="small">{{ view_key }}</p>
+            {% endif %}
         </div>
       </div>
     </section>

@@ -71,9 +71,9 @@ def register():
 def confirm_email(token):
     # noinspection PyBroadException
     # Validate token
-    try:
-        email = validate_token(token)
-    except:
+    email = validate_token(token)
+
+    if not email or not User.query.filter_by(email=email).first():
         flash('The confirmation link is either invalid or has expired.')
         return redirect(url_for('auth.login'))
 
