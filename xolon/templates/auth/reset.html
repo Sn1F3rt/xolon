@@ -12,7 +12,6 @@
         <div class="row h-100">
           <div class="col-lg-12 my-auto">
             <div class="header-content mx-auto">
-             <h1 class="mb-4">Reset Password</h1>
               <form method="POST" action="{{ url_for('auth.reset') }}">
                   {{ form.csrf_token }}
                   {% for f in form %}
@@ -28,8 +27,12 @@
                       <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>
                   {% endfor %}
                 </ul>
+                <br>
                   <input type="submit" value="Reset Password" class="btn btn-link btn-outline btn-xl">
               </form>
+              <br>
+              <p class="small">Don't have an account? <a href="{{ url_for('auth.register') }}" class="">Register</a> now.</p>
+              <p class="small">Already have an account? <a href="{{ url_for('auth.login') }}" class="">Login</a>.</p>
             </div>
           </div>
         </div>

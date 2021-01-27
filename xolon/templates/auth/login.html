@@ -27,11 +27,12 @@
                       <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>
                   {% endfor %}
                 </ul>
+                <br>
                   <input type="submit" value="Login" class="btn btn-link btn-outline btn-xl">
               </form>
-              <hr>
+              <br>
               <p class="small">Don't have an account? <a href="{{ url_for('auth.register') }}" class="">Register</a> now.</p>
-            <p class="small">Forgot your password? <a href="{{ url_for('auth.reset') }}" class="">Reset</a>.</p>
+              <p class="small">Forgot your password? <a href="{{ url_for('auth.reset') }}" class="">Reset</a>.</p>
             </div>
           </div>
         </div>
