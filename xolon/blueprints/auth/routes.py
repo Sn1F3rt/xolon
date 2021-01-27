@@ -42,13 +42,8 @@ def register():
         else:
             pass
 
-        # Check if password contains whitespaces
-        if ' ' in form.password.data:
-            flash('Password cannot have whitespaces!')
-            return redirect(redirect_url)
-
         # Test password policy
-        if len(policy.test(form.password.data)) != 0:
+        if not policy.validate(form.password.data):
             flash('Password must be at least 8 characters, and must contain '
                   'at least one uppercase, one lowercase, one digit and a symbol.')
             return redirect(redirect_url)

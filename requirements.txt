@@ -16,7 +16,7 @@ docker~=4.4.1
 gunicorn
 email_validator
 python-dotenv
-password_strength
+password_validation
 
 SQLAlchemy~=1.3.22
 click~=7.1.2
