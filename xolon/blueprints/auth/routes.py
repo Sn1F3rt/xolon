@@ -20,6 +20,11 @@ def register():
         return redirect(url_for('wallet.dashboard'))
 
     if form.validate_on_submit():
+        # Check if passwords match
+        if not form.password.data == form.confirm_password.data:
+            flash('Passwords do not match!')
+            return redirect(url_for('auth.register') + '#register')
+
         # Check if email already exists
         user = User.query.filter_by(email=form.email.data).first()
         if user:
