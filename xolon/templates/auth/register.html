@@ -39,14 +39,51 @@
                       {{ f.label }}
                       {{ f }}
                     </div>
-                  {% else %}
-                    <div class="form-group">
-                      {{ f.label }}
-                      {{ f }}
-                    </div>
                   {% endif %}
                 {% endif %}
               {% endfor %}
+              <div class="form-group">
+                  {{ f.email.label }}
+                  {{ f.email }}
+              </div>
+              <div class="form-group">
+                  {{ f.password.label }}
+                  {{ f.password }}
+              </div>
+              <meter max="4" id="password-strength-meter" value=""></meter>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+              <script>
+                  let strength = {
+                    0: "Worst",
+                    1: "Bad",
+                    2: "Weak",
+                    3: "Good",
+                    4: "Strong"
+                  }
+                  let password = document.getElementById('password');
+                  let meter = document.getElementById('password-strength-meter');
+                  let text = document.getElementById('password-strength-text');
+
+                  password.addEventListener('input', function() {
+                    let val = password.value;
+                    let result = zxcvbn(val);
+
+                    // Update the password strength meter
+                    meter.value = result.score;
+
+                    // Update the text indicator
+                    if (val !== "") {
+                      text.innerHTML = "Strength: " + strength[result.score];
+                    } else {
+                      text.innerHTML = "";
+                    }
+                  });
+              </script>
+              <p id="password-strength-text"></p>
+              <div class="form-group">
+                  {{ f.confirm_password.label }}
+                  {{ f.confirm_password }}
+              </div>
               <ul>
               {% for field, errors in form.errors.items() %}
                   <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>

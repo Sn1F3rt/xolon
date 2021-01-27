@@ -6,7 +6,7 @@ import requests
 from xolon.blueprints.auth import auth_bp
 from xolon.forms import Register, Login, Delete, Reset, ResetPassword
 from xolon.models import User
-from xolon.factory import db, bcrypt
+from xolon.factory import db, bcrypt, policy
 from xolon.library.docker import docker
 from xolon.library.helpers import capture_event
 from xolon.token import generate_token, validate_token
@@ -20,10 +20,7 @@ def register():
         return redirect(url_for('wallet.dashboard'))
 
     if form.validate_on_submit():
-        # Check if passwords match
-        if not form.password.data == form.confirm_password.data:
-            flash('Passwords do not match!')
-            return redirect(url_for('auth.register') + '#register')
+        redirect_url = url_for('auth.register') + '#register'
 
         # Check if email already exists
         user = User.query.filter_by(email=form.email.data).first()
@@ -41,9 +38,25 @@ def register():
                       'minutes to register a valid email address and try again, remember, not '
                       'your keys, not your crypto!')
 
-                return redirect(url_for('auth.register'))
+                return redirect(redirect_url)
         else:
             pass
+
+        # Check if password contains whitespaces
+        if ' ' in form.password.data:
+            flash('Password cannot have whitespaces!')
+            return redirect(redirect_url)
+
+        # Test password policy
+        if len(policy.test(form.password.data)) != 0:
+            flash('Password must be at least 8 characters, and must contain '
+                  'at least one uppercase, one lowercase, one digit and a symbol.')
+            return redirect(redirect_url)
+
+        # Check if passwords match
+        if not form.password.data == form.confirm_password.data:
+            flash('Passwords do not match!')
+            return redirect(redirect_url)
 
         # Save new user
         user = User(

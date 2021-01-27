@@ -6,6 +6,7 @@ from flask_session import Session
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from password_strength import PasswordPolicy
 from redis import Redis
 from datetime import datetime
 from xolon import config
@@ -15,6 +16,15 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 mail = None
+
+policy = PasswordPolicy.from_names(
+    length=8,
+    uppercase=1,
+    lowercase=1,
+    numbers=1,
+    special=1,
+    nonletters=2,
+)
 
 
 def _setup_db(app: Flask):
