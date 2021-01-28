@@ -111,6 +111,11 @@
                   {% endif %}
                 {% endif %}
               {% endfor %}
+              <style>
+                .g-recaptcha > div {
+                  margin: 0 auto;
+                }
+              </style>
               {{ form.recaptcha }}
               <ul>
               {% for field, errors in form.errors.items() %}

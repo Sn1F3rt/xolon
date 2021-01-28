@@ -22,7 +22,6 @@
                       </div>
                     {% endif %}
                   {% endfor %}
-                  {{ form.recaptcha }}
                   <ul>
                   {% for field, errors in form.errors.items() %}
                       <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>
