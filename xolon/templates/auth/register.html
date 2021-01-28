@@ -32,16 +32,6 @@
         <div class="section-heading text-center">
           <form method="POST" action="{{ url_for('auth.register') }}">
               {{ form.csrf_token }}
-              {% for f in form %}
-                {% if f.name != 'csrf_token' %}
-                  {% if f.type == 'BooleanField' %}
-                    <div class="form-group-span">
-                      {{ f.label }}
-                      {{ f }}
-                    </div>
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
               <div class="form-group">
                   {{ form.email.label }}
                   {{ form.email }}
@@ -60,7 +50,7 @@
                     2: "Weak",
                     3: "Good",
                     4: "Strong"
-                  }
+                  };
                   let password = document.getElementById('password');
                   let meter = document.getElementById('password-strength-meter');
                   let text = document.getElementById('password-strength-text');
@@ -84,6 +74,16 @@
                   {{ form.confirm_password.label }}
                   {{ form.confirm_password }}
               </div>
+              {% for f in form %}
+                {% if f.name != 'csrf_token' %}
+                  {% if f.type == 'BooleanField' %}
+                    <div class="form-group-span">
+                      {{ f.label }}
+                      {{ f }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
               <ul>
               {% for field, errors in form.errors.items() %}
                   <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>
