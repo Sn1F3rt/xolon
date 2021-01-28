@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, current_user, login_required
 from time import sleep
 import datetime
@@ -224,6 +224,10 @@ def reset_with_token(token):
     form = ResetPassword()
 
     if form.validate_on_submit():
+        if not form.password.data == form.confirm_password.data:
+            flash('The passwords do not match!')
+            return redirect(request.url)
+
         user = User.query.filter_by(email=email).first()
 
         # Change user password

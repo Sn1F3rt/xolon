@@ -96,7 +96,7 @@
                         }
                 })
               </script>
-
+              <br>
               <div class="form-group">
                   {{ form.confirm_password.label }}
                   {{ form.confirm_password }}
@@ -111,6 +111,7 @@
                   {% endif %}
                 {% endif %}
               {% endfor %}
+              {{ form.recaptcha }}
               <ul>
               {% for field, errors in form.errors.items() %}
                   <li>{{ form[field].label }}: {{ ', '.join(errors) }}</li>

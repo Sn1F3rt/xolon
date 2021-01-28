@@ -1,7 +1,7 @@
 from re import match as re_match
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, BooleanField
-from wtforms.validators import DataRequired, Optional, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Optional, Email, ValidationError
 
 
 class Register(FlaskForm):
@@ -10,13 +10,15 @@ class Register(FlaskForm):
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
     confirm_password = StringField('Confirm Password:', validators=[DataRequired()],
-                                   render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
+                                   render_kw={"placeholder": "Confirm Password",
+                                              "class": "form-control", "type": "password"})
     faq_reviewed = BooleanField('FAQ Reviewed:', validators=[DataRequired()],
                                 render_kw={"class": "form-control-span"})
     terms_reviewed = BooleanField('Terms of Service Reviewed:', validators=[DataRequired()],
                                   render_kw={"class": "form-control-span"})
     privacy_reviewed = BooleanField('Privacy Policy Reviewed:', validators=[DataRequired()],
                                     render_kw={"class": "form-control-span"})
+    recaptcha = RecaptchaField()
 
 
 class Login(FlaskForm):
@@ -24,19 +26,21 @@ class Login(FlaskForm):
                         render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "Password", "class": "form-control", "type": "password"})
+    recaptcha = RecaptchaField()
 
 
 class Reset(FlaskForm):
     email = StringField('Email Address:', validators=[DataRequired(), Email()],
                         render_kw={"placeholder": "Email", "class": "form-control", "type": "email"})
+    recaptcha = RecaptchaField()
 
 
 class ResetPassword(FlaskForm):
     password = StringField('Password:', validators=[DataRequired()],
                            render_kw={"placeholder": "New Password", "class": "form-control", "type": "password"})
-    confirm = StringField('Password:', validators=[DataRequired(),
-                                                   EqualTo('password', message='Passwords must match.')],
-                          render_kw={"placeholder": "Confirm Password", "class": "form-control", "type": "password"})
+    confirm_password = StringField('Confirm Password:', validators=[DataRequired()],
+                                   render_kw={"placeholder": "Confirm Password",
+                                              "class": "form-control", "type": "password"})
 
 
 class Secrets(FlaskForm):
