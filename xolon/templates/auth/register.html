@@ -43,14 +43,15 @@
                 {% endif %}
               {% endfor %}
               <div class="form-group">
-                  {{ f.email.label }}
-                  {{ f.email }}
+                  {{ form.email.label }}
+                  {{ form.email }}
               </div>
               <div class="form-group">
-                  {{ f.password.label }}
-                  {{ f.password }}
+                  {{ form.password.label }}
+                  {{ form.password }}
               </div>
               <meter max="4" id="password-strength-meter" value=""></meter>
+              <p id="password-strength-text"></p>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
               <script>
                   let strength = {
@@ -79,10 +80,9 @@
                     }
                   });
               </script>
-              <p id="password-strength-text"></p>
               <div class="form-group">
-                  {{ f.confirm_password.label }}
-                  {{ f.confirm_password }}
+                  {{ form.confirm_password.label }}
+                  {{ form.confirm_password }}
               </div>
               <ul>
               {% for field, errors in form.errors.items() %}
