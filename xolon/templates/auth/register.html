@@ -40,36 +40,63 @@
                   {{ form.password.label }}
                   {{ form.password }}
               </div>
-              <meter max="4" id="password-strength-meter" value=""></meter>
-              <p id="password-strength-text"></p>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+              <div class="indicator">
+                <span class="weak"></span>
+                <span class="medium"></span>
+                <span class="strong"></span>
+              </div>
+              <div class="text"></div>
               <script>
-                  let strength = {
-                    0: "Worst",
-                    1: "Bad",
-                    2: "Weak",
-                    3: "Good",
-                    4: "Strong"
-                  };
-                  let password = document.getElementById('password');
-                  let meter = document.getElementById('password-strength-meter');
-                  let text = document.getElementById('password-strength-text');
+                let password = document.getElementById('password');
+                const indicator = document.querySelector(".indicator");
+                const input = document.querySelector("input");
+                const weak = document.querySelector(".weak");
+                const medium = document.querySelector(".medium");
+                const strong = document.querySelector(".strong");
+                const text = document.querySelector(".text");
+                let regExpWeak = /[a-z]/;
+                let regExpMedium = /\d+/;
+                let regExpStrong = /.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/;
 
-                  password.addEventListener('input', function() {
-                    let val = password.value;
-                    let result = zxcvbn(val);
-
-                    // Update the password strength meter
-                    meter.value = result.score;
-
-                    // Update the text indicator
-                    if (val !== "") {
-                      text.innerHTML = "Strength: " + strength[result.score];
-                    } else {
-                      text.innerHTML = "";
-                    }
-                  });
+                password.addEventListener('keyup', function() {
+                        console.log(password.value);
+                if(password.value != ""){
+                          indicator.style.display = "flex";
+                          indicator.style.margin = "0 auto";
+                          if(password.value.length <= 8 && (password.value.match(regExpWeak) || password.value.match(regExpMedium) || password.value.match(regExpStrong)))no=1;
+                          if(password.value.length >= 8 && ((password.value.match(regExpWeak) && password.value.match(regExpMedium)) || (password.value.match(regExpMedium) && password.value.match(regExpStrong)) || (password.value.match(regExpWeak) && password.value.match(regExpStrong))))no=2;
+                          if(password.value.length >= 8 && password.value.match(regExpWeak) && password.value.match(regExpMedium) && password.value.match(regExpStrong))no=3;
+                          if(no==1){
+                            weak.classList.add("active");
+                            text.style.display = "block";
+                            text.textContent = "Your password is too week";
+                            text.classList.add("weak");
+                          }
+                          if(no==2){
+                            medium.classList.add("active");
+                            text.textContent = "Your password is medium";
+                            text.classList.add("medium");
+                          }else{
+                            medium.classList.remove("active");
+                            text.classList.remove("medium");
+                          }
+                          if(no==3){
+                            weak.classList.add("active");
+                            medium.classList.add("active");
+                            strong.classList.add("active");
+                            text.textContent = "Your password is strong";
+                            text.classList.add("strong");
+                          }else{
+                            strong.classList.remove("active");
+                            text.classList.remove("strong");
+                          }
+                        }else{
+                          indicator.style.display = "none";
+                          text.style.display = "none";
+                        }
+                })
               </script>
+
               <div class="form-group">
                   {{ form.confirm_password.label }}
                   {{ form.confirm_password }}
