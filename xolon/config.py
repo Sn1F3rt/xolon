@@ -45,6 +45,10 @@ MAIL_USERNAME = ''
 MAIL_PASSWORD = ''
 MAIL_DEFAULT_SENDER = ('Xolon', 'xolon@example.com')
 
+# Recaptcha
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+
 # Development
 TEMPLATES_AUTO_RELOAD = True
 MAIL_DEBUG = True
