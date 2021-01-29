@@ -36,9 +36,10 @@ def _setup_db(app: Flask):
     )
     app.config['SQLALCHEMY_DATABASE_URI'] = uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_size': 100,
-                                               'pool_recycle': 300
-                                               }
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_recycle': 120
+    }
+
     db = SQLAlchemy(app)
     import xolon.models
     db.create_all()
