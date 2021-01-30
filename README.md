@@ -29,16 +29,23 @@ The requirements for Xolon are as follows:
 
 * `docker` and `docker-compose`
 * `python3` (tested on **v3.8.5**)
-* `make`
+* `git` and `make`
 
 ### Setup
 
-First edit the files `.env` and `xolon/config.py` and setup the necessary configurations. Note that the database credentials in `xolon/config.py` must be the same as in`.env`.
+**Do not run the web wallet as root!** Use a user without SSH access to prevent security vulnerabilities.
+
+```
+sudo adduser --disabled-password --disabled-login xolon
+sudo su - xolon
+``` 
 
 Clone the GitHub repository:  
 ```
 git clone https://github.com/sohamb03/xolon
 ```
+
+Firstly, edit the files `.env` and `xolon/config.py` and setup the necessary configurations. Note that the database credentials in `xolon/config.py` must be the same as in`.env`.
 
 Run the following command to setup the dependencies:
 ```
