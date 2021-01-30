@@ -2,11 +2,24 @@
 
 > A web wallet for Xolentum
 
+## Table of Contents
+
+- [About](#about)
+- [Installation](#installation)
+  * [Requirements](#requirements)
+  * [Setup](#setup)
+  * [Running](#running)
+- [Maintenance](#maintenance)
+- [Donations](#donations)
+- [License](#license)
+  
+
+
 ## About
 
-Xolon is an *open-source*, [*custodial*](https://atomicwallet.io/custodial-non-custodial-wallets-comparison) web wallet for the [***Xolentum***](https://www.xolentum.org) cryptocurrency.
+Xolon is an [*open-source*](https://github.com/sohamb03/xolon), [*custodial*](https://atomicwallet.io/custodial-non-custodial-wallets-comparison) web wallet for the [***Xolentum***](https://www.xolentum.org) cryptocurrency.
 
-It is powered by Flask, MariaDB, Redis and Grafana, all within Docker containers. 
+It is powered by Flask, MySQL, Redis and Grafana, all within Docker containers. 
 
 ## Installation
 
@@ -32,7 +45,7 @@ Run the following command to setup the dependencies:
 make setup
 ```
 
-Initialie the backend containers:
+Start the backend containers:
 ```
 make up
 ```
@@ -44,19 +57,53 @@ Now, initialize the databases:
 
 ### Running
 
-Launch the development server:
+To launch the development server, use:
 ```
 make dev
 ```
 
-For production, `gunicorn` and `nginx` is used. Run the process as a system service using the example `xolon.service` file bundled with this repository. After editing the file to match the paths, move it to the `/etc/systemd/system` directory.
+For production, `gunicorn` and `nginx` is used. Run the process as a system service using the example `xolon.service` file bundled with this repository. After editing the file to change the paths, move it to the `/etc/systemd/system` directory.
 
-Start Xolon service.
+Start Xolon as a system service.
 ```
 systemctl daemon-reload && systemctl enable xolon --now
 ```
 
-Now proxy pass your FQDN (can be a sub-domain) to the UNIX socket using the sample `nginx.conf` file provided. 
+Now proxy pass your FQDN (can be a sub-domain) to the UNIX socket using the sample `xolon.nginx.conf` file provided. 
+
+## Maintenance
+
+This application comes with built-in capabilities to regulate traffic during maintenance. When needed, the maintenance mode can be turned on with:
+
+```
+./bin/cmd maintenance enable
+```
+
+And the application will immediately switch to the maintenance mode, redirecting users to a static page until the mode is disabled with:
+
+```
+./bin/cmd maintenance disable
+```
+
+## Donations
+
+The application itself is free to use but it's development and maintenance are not. If you find the application useful, please consider donating to the [Xolentum Development Fund](https://www.xolentum.org/community/funding/).
+
+#### Xolentum
+
+Address: `Xwmjr3jep6H6FBzLJjkj7v59qJQqLJyK5K67hiJPnJ1hVsvDUr4LPDXYFoPhBXMMoDJK4i27UdvAAhHShuxaY96r1NuL4n5jF`
+
+View Key: `4cf37fb01f76badcc998a0de1388677f95b9e0a33a57f0d6de626334ebbb2bfb`
+
+#### BitCoin
+
+Address: `1DyqVvN4KR5Rxdf3zGpA6gRBHsN5uR29nf`
+
+#### Monero
+
+Address: `49EPmSiHM9ibXxdgNmPFeKcoqjY1WKMtx4BGLGXREXZ2CzYsXDjfVfuRZivR3kGFqWAELbJJwrmia2qsGvScZZFkHZLE5Ef`
+
+View Key: `b2666a4868005092dc1369f4fe33bd372ead8fec4b56830b0409bb6046b16792`
 
 ## License
 
