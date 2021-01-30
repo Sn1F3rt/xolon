@@ -1,0 +1,16 @@
+[Unit]
+Description=Gunicorn instance to serve Xolon
+After=network.target
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=xolon
+Group=nginx # "www-data" on Ubuntu/Debian
+
+WorkingDirectory=/home/xolon/xolon
+Environment="PATH=/usr/bin:/home/xolon/xolon/.venv/bin"
+ExecStart=/usr/bin/bash /home/xolon/xolon/bin/prod
+
+[Install]
+WantedBy=multi-user.target

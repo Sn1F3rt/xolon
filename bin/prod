@@ -11,8 +11,7 @@ export FLASK_ENV=production
 mkdir -p $BASE
 
 gunicorn \
-  --bind 0.0.0.0:2003 "xolon.app:app" \
-  --daemon \
+  --bind unix:xolon.sock "xolon.app:app" \
   --log-file $BASE/gunicorn.log \
   --pid $BASE/gunicorn.pid \
   --access-logfile $BASE/access.log \
