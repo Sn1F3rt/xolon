@@ -12,7 +12,14 @@ def capture_event(user_id, event_type):
 
 
 def on_maintenance():
-    db.session.commit()
+    # noinspection PyBroadException
+    try:
+        db.session.commit()
+
+    except:
+        db.session.rollback()
+        db.session.close()
+
     return Internal.query.filter_by(key='SITE_MAINTENANCE').first().value
 
 
