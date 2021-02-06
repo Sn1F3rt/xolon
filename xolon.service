@@ -6,7 +6,6 @@ Requires=docker.service
 
 [Service]
 User=xolon
-Group=nginx # "www-data" on Ubuntu/Debian
 
 WorkingDirectory=/home/xolon/xolon
 Environment="PATH=/usr/bin:/home/xolon/xolon/.venv/bin"
