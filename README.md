@@ -107,6 +107,12 @@ Test the Nginx configuration:
 sudo nginx -t
 ```
 
+Restart Nginx:
+
+```
+sudo systemctl restart nginx
+```
+
 ## Maintenance
 
 This application comes with built-in capabilities to regulate traffic during maintenance. When needed, the maintenance mode can be turned on with:
