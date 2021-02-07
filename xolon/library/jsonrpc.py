@@ -73,9 +73,15 @@ class Wallet(JSONRPC):
 
     def integrated_address(self, address, payment_id):
         data = {'standard_address': address, 'payment_id': payment_id}
+        return self.make_rpc('make_integrated_address', data)['integrated_address']
+    
+    def validate_address(self, address: str):
+        data = {'address': address}
+        return self.make_rpc('validate_address', data)['valid']
 
-        _address = self.make_rpc('make_integrated_address', data)['integrated_address']
-        return _address
+    def is_integrated(self, address):
+        data = {'address': address}
+        return self.make_rpc('validate_address', data)['integrated']
 
     def get_address(self, account_index=0):
         data = {'account_index': account_index}
@@ -114,7 +120,7 @@ class Wallet(JSONRPC):
             data['address'] = dest_address
             transfer = self.make_rpc('sweep_all', data)
         else:
-            if payment_id:
+            if payment_id and not self.is_integrated(dest_address):
                 dest_address = self.integrated_address(dest_address, payment_id)
 
             data['destinations'] = [{

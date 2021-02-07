@@ -245,8 +245,8 @@ def send():
             capture_event(user.id, 'tx_fail_address_invalid')
             return redirect(redirect_url)
 
-        # Quick n dirty check to see if address is XOL
-        if len(address) not in [97, 108]:
+        # Validate destination address
+        if wallet.validate_address(address):
             flash('Invalid Xolentum address provided.')
             capture_event(user.id, 'tx_fail_address_invalid')
             return redirect(redirect_url)
@@ -254,6 +254,7 @@ def send():
         # Check if we're sweeping or not
         if send_form.amount.data == 'all':
             tx = wallet.transfer(address, None, 'sweep_all')
+
         else:
             # Make sure the amount provided is a number
             # noinspection PyBroadException
