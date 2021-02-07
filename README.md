@@ -121,7 +121,7 @@ This application comes with built-in capabilities to regulate traffic during mai
 ./bin/cmd maintenance enable
 ```
 
-And the application will immediately switch to the maintenance mode, redirecting users to a static page until the mode is disabled with:
+... and the application will immediately switch to the maintenance mode, redirecting users to a static page until the mode is disabled with:
 
 ```
 ./bin/cmd maintenance disable
@@ -129,7 +129,7 @@ And the application will immediately switch to the maintenance mode, redirecting
 
 ## Donations
 
-The application itself is free to use but it's development and maintenance are not. If you find the application useful, please consider donating to the [Xolentum Development Fund](https://www.xolentum.org/community/funding/).
+The application itself is free to use but it's development and hosting are not. If you find the application useful, please consider donating to the [Xolentum Development Fund](https://www.xolentum.org/community/funding/).
 
 #### Xolentum
 
