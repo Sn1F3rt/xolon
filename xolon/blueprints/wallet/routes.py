@@ -246,7 +246,7 @@ def send():
             return redirect(redirect_url)
 
         # Validate destination address
-        if wallet.validate_address(address):
+        if not wallet.validate_address(address):
             flash('Invalid Xolentum address provided.')
             capture_event(user.id, 'tx_fail_address_invalid')
             return redirect(redirect_url)
