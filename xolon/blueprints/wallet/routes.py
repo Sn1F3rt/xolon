@@ -266,7 +266,8 @@ def send():
                 capture_event(user.id, 'tx_fail_amount_invalid')
                 return redirect(redirect_url)
 
-            if not len(payment_id) in [16, 32] and not all(c in string.hexdigits for c in payment_id):
+            # Validate Payment ID
+            if payment_id and not len(payment_id) in [16, 32] and not all(c in string.hexdigits for c in payment_id):
                 flash('Invalid payment ID specified.')
                 return redirect(redirect_url)
 
