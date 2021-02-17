@@ -12,7 +12,7 @@ DAEMON_PASS = ''
 
 # Wallets
 WALLET_DIR = './data/wallets'
-XOLENTUM_IMAGE = 'xolentum/xolentum:v0.3.0.0'
+XOLENTUM_IMAGE = 'xolentum/xolentum:latest'
 
 # Security
 PASSWORD_SALT = 'salt here'  # database salts
