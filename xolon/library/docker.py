@@ -80,6 +80,7 @@ class Docker(object):
         --password {u.wallet_password} \
         --daemon-address {config.DAEMON_PROTO}://{config.DAEMON_HOST}:{config.DAEMON_PORT} \
         --daemon-login {config.DAEMON_USER}:{config.DAEMON_PASS} \
+        --mining-threads 1 \
         --log-file /wallet/{u.id}-rpc.log
         """
         try:
