@@ -30,6 +30,7 @@ class Docker(object):
                     --password {u.wallet_password} \
                     --daemon-address {config.DAEMON_PROTO}://{config.DAEMON_HOST}:{config.DAEMON_PORT} \
                     --daemon-login {config.DAEMON_USER}:{config.DAEMON_PASS} \
+                    --trusted-daemon \
                     --electrum-seed '{seed}' \
                     --log-file /wallet/{u.id}-init.log \
                     --command refresh"
@@ -42,6 +43,7 @@ class Docker(object):
                     --mnemonic-language English \
                     --daemon-address {config.DAEMON_PROTO}://{config.DAEMON_HOST}:{config.DAEMON_PORT} \
                     --daemon-login {config.DAEMON_USER}:{config.DAEMON_PASS} \
+                    --trusted-daemon \
                     --log-file /wallet/{u.id}-init.log \
                     --command version
                     """
@@ -80,6 +82,7 @@ class Docker(object):
         --password {u.wallet_password} \
         --daemon-address {config.DAEMON_PROTO}://{config.DAEMON_HOST}:{config.DAEMON_PORT} \
         --daemon-login {config.DAEMON_USER}:{config.DAEMON_PASS} \
+        --trusted-daemon \
         --mining-threads 1 \
         --log-file /wallet/{u.id}-rpc.log
         """
